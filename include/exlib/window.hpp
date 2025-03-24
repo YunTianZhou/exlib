@@ -147,7 +147,7 @@ namespace ex {
         void operator=(Window const&) = delete;
         ~Window();
 
-        void Destroy();
+        void destroy();
 
         // Get Functions
         inline int is_exist() const { return exist; }

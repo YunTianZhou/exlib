@@ -43,11 +43,11 @@ Window::Window(Vec2i size, std::string _title)
 
 Window::~Window() {
     if (exist) 
-        Destroy();
+        destroy();
     glfwTerminate();
 }
 
-void Window::Destroy() {
+void Window::destroy() {
     if (!exist) {
         throw Exception("Window not exist");
     }
