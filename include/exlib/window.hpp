@@ -9,7 +9,7 @@
 
 namespace ex {
 
-    class Window {
+    class EXLIB_API Window {
     public:
         class Callback {
         public:

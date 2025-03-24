@@ -8,7 +8,7 @@
 
 namespace ex {
 
-class UserPointer {
+class EXLIB_API UserPointer {
 public:
 	UserPointer() = delete;
 

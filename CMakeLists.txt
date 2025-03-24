@@ -19,9 +19,11 @@ include_directories(external/glew/include)
 
 add_library(exlib_static STATIC ${SRC_FILES})
 set_target_properties(exlib_static PROPERTIES OUTPUT_NAME "exlib_s")
+target_compile_definitions(exlib_static PUBLIC EXLIB_STATIC)
 
 add_library(exlib_shared SHARED ${SRC_FILES})
 set_target_properties(exlib_shared PROPERTIES OUTPUT_NAME "exlib")
+target_compile_definitions(exlib_shared PRIVATE EXLIB_EXPORTS)
 
 if(WIN32)
     target_link_libraries(exlib_static glfw libglew_static opengl32)
