@@ -28,8 +28,6 @@ private:
 	static std::unordered_map<std::string, void*> pointers;
 };
 
-std::unordered_map<std::string, void*> UserPointer::pointers;
-
 template <class T>
 inline void ex::UserPointer::set(const std::string& name, T* value) {
 	pointers[name] = (void*) value;
