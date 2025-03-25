@@ -1,3 +1,6 @@
+@echo off
+cd /d "%~dp0"
+
 cd ..
 mkdir build
 cd build
