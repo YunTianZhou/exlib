@@ -11,135 +11,8 @@ namespace ex {
 
     class EXLIB_API Window {
     public:
-        class Callback {
-        public:
-            // Types
-            using Close = void();
-            using Size = void(Vec2i size);
-            using FramebufferSize = void(Vec2i size);
-            using Position = void(Vec2i pos);
-            using Iconify = void(int iconified);
-            using Maximize = void(int maximized);
-            using Focus = void(int focused);
-            using Refresh = void();
+        friend class Cursor;
 
-            // Setters
-            inline void set_close(Close callback) {
-                UserPointer::set("__Ex_Window_Callback_Close", callback);
-
-                auto wrapper = +[](GLFWwindow* window) {
-                    Close* callback = UserPointer::get<Close>("__Ex_Window_Callback_Close");
-                    if (callback) {
-                        (*callback)();
-                    }
-                };
-
-                glfwSetWindowCloseCallback(window, wrapper);
-            }
-
-            inline void set_size(Size* callback) {
-                UserPointer::set("__Ex_Window_Callback_Size", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int width, int height) {
-                    Size* callback = UserPointer::get<Size>("__Ex_Window_Callback_Size");
-                    if (callback) {
-                        (*callback)(Vec2i{ width, height });
-                    }
-                };
-
-                glfwSetWindowSizeCallback(window, wrapper);
-            }
-
-            inline void set_framebuffer_size(FramebufferSize* callback) {
-                UserPointer::set("__Ex_Window_Callback_FramebufferSize", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int width, int height) {
-                    FramebufferSize* callback = UserPointer::get<FramebufferSize>("__Ex_Window_Callback_FramebufferSize");
-                    if (callback) {
-                        (*callback)(Vec2i{ width, height });
-                    }
-                };
-
-                glfwSetFramebufferSizeCallback(window, wrapper);
-            }
-
-            inline void set_position(Position* callback) {
-                UserPointer::set("__Ex_Window_Callback_Position", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int xpos, int ypos) {
-                    Position* callback = UserPointer::get<Position>("__Ex_Window_Callback_Position");
-                    if (callback) {
-                        (*callback)(Vec2i{ xpos, ypos });
-                    }
-                };
-
-                glfwSetWindowPosCallback(window, wrapper);
-            }
-
-            inline void set_iconify(Iconify* callback) {
-                UserPointer::set("__Ex_Window_Callback_Iconify", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int iconified) {
-                    Iconify* callback = UserPointer::get<Iconify>("__Ex_Window_Callback_Iconify");
-                    if (callback) {
-                        (*callback)(iconified);
-                    }
-                };
-
-                glfwSetWindowIconifyCallback(window, wrapper);
-            }
-
-            inline void set_maximize(Maximize* callback) {
-                UserPointer::set("__Ex_Window_Callback_Maximize", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int maximized) {
-                    Maximize* callback = UserPointer::get<Maximize>("__Ex_Window_Callback_Maximize");
-                    if (callback) {
-                        (*callback)(maximized);
-                    }
-                };
-
-                glfwSetWindowMaximizeCallback(window, wrapper);
-            }
-
-            inline void set_focus(Focus* callback) {
-                UserPointer::set("__Ex_Window_Callback_Focus", callback);
-
-                auto wrapper = +[](GLFWwindow* window, int focused) {
-                    Focus* callback = UserPointer::get<Focus>("__Ex_Window_Callback_Focus");
-                    if (callback) {
-                        (*callback)(focused);
-                    }
-                };
-
-                glfwSetWindowFocusCallback(window, wrapper);
-            }
-
-            inline void set_refresh(Refresh* callback) {
-                UserPointer::set("__Ex_Window_Callback_Refresh", callback);
-
-                auto wrapper = +[](GLFWwindow* window) {
-                    Refresh* callback = UserPointer::get<Refresh>("__Ex_Window_Callback_Refresh");
-                    if (callback) {
-                        (*callback)();
-                    }
-                };
-
-                glfwSetWindowRefreshCallback(window, wrapper);
-            }
-
-            // Disable (Unset) Callbacks
-            inline void disable_close() { glfwSetWindowCloseCallback(window, nullptr); }
-            inline void disable_size() { glfwSetWindowSizeCallback(window, nullptr); }
-            inline void disable_framebuffer_size() { glfwSetFramebufferSizeCallback(window, nullptr); }
-            inline void disable_position() { glfwSetWindowPosCallback(window, nullptr); }
-            inline void disable_iconify() { glfwSetWindowIconifyCallback(window, nullptr); }
-            inline void disable_maximize() { glfwSetWindowMaximizeCallback(window, nullptr); }
-            inline void disable_focus() { glfwSetWindowFocusCallback(window, nullptr); }
-            inline void disable_refresh() { glfwSetWindowRefreshCallback(window, nullptr); }
-        };
-
-    public:
         inline static Window& create(Vec2i size, std::string _title);
         inline static Window& get_instance();
 
@@ -194,6 +67,39 @@ namespace ex {
         inline void poll_events() const { glfwPollEvents(); }
         inline void swap_buffers() const { glfwSwapBuffers(window); }
 
+    public:
+        /** Callbacks **/
+
+        // Types
+        using CloseCallback = void();
+        using SizeCallback = void(Vec2i size);
+        using FramebufferSizeCallback = void(Vec2i size);
+        using PositionCallback = void(Vec2i pos);
+        using IconifyCallback = void(bool iconified);
+        using MaximizeCallback = void(bool maximized);
+        using FocusCallback = void(bool focused);
+        using RefreshCallback = void();
+
+        // Setters
+        void set_close_callback(CloseCallback callback);
+        void set_size_callback(SizeCallback callback);
+        void set_framebuffer_size_callback(FramebufferSizeCallback callback);
+        void set_position_callback(PositionCallback callback);
+        void set_iconify_callback(IconifyCallback callback);
+        void set_maximize_callback(MaximizeCallback callback);
+        void set_focus_callback(FocusCallback callback);
+        void set_refresh_callback(RefreshCallback callback);
+
+        // Disable (Unset) Callbacks
+        inline void disable_close_callback() { glfwSetWindowCloseCallback(window, nullptr); }
+        inline void disable_size_callback() { glfwSetWindowSizeCallback(window, nullptr); }
+        inline void disable_framebuffer_size_callback() { glfwSetFramebufferSizeCallback(window, nullptr); }
+        inline void disable_position_callback() { glfwSetWindowPosCallback(window, nullptr); }
+        inline void disable_iconify_callback() { glfwSetWindowIconifyCallback(window, nullptr); }
+        inline void disable_maximize_callback() { glfwSetWindowMaximizeCallback(window, nullptr); }
+        inline void disable_focus_callback() { glfwSetWindowFocusCallback(window, nullptr); }
+        inline void disable_refresh_callback() { glfwSetWindowRefreshCallback(window, nullptr); }
+
     private:
         Window();
         Window(Vec2i size, std::string _title);
@@ -213,7 +119,7 @@ namespace ex {
 
     inline Window& Window::get_instance() {
         if (!initialized) {
-            throw Exception("Window instance has not been initialized!");
+            throw Exception("Window instance has not been initialized.");
         }
 
         return instance;

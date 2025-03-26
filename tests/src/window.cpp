@@ -18,21 +18,21 @@ void on_position(ex::Vec2i pos) {
     std::cout << "Window moved to: (" << pos.x << ", " << pos.y << ")" << std::endl;
 }
 
-void on_iconify(int iconified) {
+void on_iconify(bool iconified) {
     if (iconified)
         std::cout << "Window minimized!" << std::endl;
     else
         std::cout << "Window restored!" << std::endl;
 }
 
-void on_maximize(int maximized) {
+void on_maximize(bool maximized) {
     if (maximized)
         std::cout << "Window maximized!" << std::endl;
     else
         std::cout << "Window restored!" << std::endl;
 }
 
-void on_focus(int focused) {
+void on_focus(bool focused) {
     if (focused)
         std::cout << "Window gained focus!" << std::endl;
     else
@@ -45,21 +45,20 @@ void on_refresh() {
 
 int main() {
     // Create a window
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Example Window");
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Window Test");
 
     if (!window.is_exist())
         return -1;
 
     // Set callbacks
-    ex::Window::Callback callbacks;
-    callbacks.set_close(on_close);
-    callbacks.set_size(on_size);
-    callbacks.set_framebuffer_size(on_framebuffer_size);
-    callbacks.set_position(on_position);
-    callbacks.set_iconify(on_iconify);
-    callbacks.set_maximize(on_maximize);
-    callbacks.set_focus(on_focus);
-    callbacks.set_refresh(on_refresh);
+    window.set_close_callback(on_close);
+    window.set_size_callback(on_size);
+    window.set_framebuffer_size_callback(on_framebuffer_size);
+    window.set_position_callback(on_position);
+    window.set_iconify_callback(on_iconify);
+    window.set_maximize_callback(on_maximize);
+    window.set_focus_callback(on_focus);
+    window.set_refresh_callback(on_refresh);
 
     // Test basic window functions
     window.set_title("Testing Window Features");
@@ -84,8 +83,8 @@ int main() {
     window.maximize();
 
     // Disable some callbacks
-    callbacks.disable_close();
-    callbacks.disable_size();
+    window.disable_close_callback();
+    window.disable_size_callback();
 
     // Main event loop
     while (window.is_open()) {
