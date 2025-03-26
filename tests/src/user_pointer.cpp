@@ -26,57 +26,57 @@ void test_user_pointer() {
     TestStruct* retrieved_struct = UserPointer::get<TestStruct>("struct_ptr");
 
     if (retrieved_int && *retrieved_int == 42) {
-        std::cout << "int_ptr test passed\n";
+        std::cout << "int_ptr test passed" << std::endl;
     }
     else {
-        std::cout << "int_ptr test failed\n";
+        std::cout << "int_ptr test failed" << std::endl;
     }
 
     if (retrieved_str && *retrieved_str == "Hello World") {
-        std::cout << "str_ptr test passed\n";
+        std::cout << "str_ptr test passed" << std::endl;
     }
     else {
-        std::cout << "str_ptr test failed\n";
+        std::cout << "str_ptr test failed" << std::endl;
     }
 
     if (retrieved_struct && retrieved_struct->value == 100) {
-        std::cout << "struct_ptr test passed\n";
+        std::cout << "struct_ptr test passed" << std::endl;
     }
     else {
-        std::cout << "struct_ptr test failed\n";
+        std::cout << "struct_ptr test failed" << std::endl;
     }
 
     // Test find()
     if (UserPointer::find("int_ptr")) {
-        std::cout << "find(int_ptr) test passed\n";
+        std::cout << "find(int_ptr) test passed" << std::endl;
     }
     else {
-        std::cout << "find(int_ptr) test failed\n";
+        std::cout << "find(int_ptr) test failed" << std::endl;
     }
 
     if (!UserPointer::find("unknown_ptr")) {
-        std::cout << "find(unknown_ptr) test passed\n";
+        std::cout << "find(unknown_ptr) test passed" << std::endl;
     }
     else {
-        std::cout << "find(unknown_ptr) test failed\n";
+        std::cout << "find(unknown_ptr) test failed" << std::endl;
     }
 
     // Test remove()
     UserPointer::remove("int_ptr");
     if (!UserPointer::find("int_ptr")) {
-        std::cout << "remove(int_ptr) test passed\n";
+        std::cout << "remove(int_ptr) test passed" << std::endl;
     }
     else {
-        std::cout << "remove(int_ptr) test failed\n";
+        std::cout << "remove(int_ptr) test failed" << std::endl;
     }
 
     // Test clear()
     UserPointer::clear();
     if (!UserPointer::find("str_ptr") && !UserPointer::find("struct_ptr")) {
-        std::cout << "clear() test passed\n";
+        std::cout << "clear() test passed" << std::endl;
     }
     else {
-        std::cout << "clear() test failed\n";
+        std::cout << "clear() test failed" << std::endl;
     }
 }
 
