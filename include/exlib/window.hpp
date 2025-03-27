@@ -12,6 +12,7 @@ namespace ex {
     class EXLIB_API Window {
     public:
         friend class Cursor;
+        friend class Key;
 
         inline static Window& create(Vec2i size, std::string _title);
         inline static Window& get_instance();
