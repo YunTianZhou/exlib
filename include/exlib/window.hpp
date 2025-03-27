@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <functional>
 
@@ -66,6 +67,8 @@ namespace ex {
 
         // Other functions
         inline void poll_events() const { glfwPollEvents(); }
+        inline void wait_events() const { glfwWaitEvents(); }
+        inline void wait_events(double timeout) const { glfwWaitEventsTimeout(timeout); }
         inline void swap_buffers() const { glfwSwapBuffers(window); }
 
     public:
@@ -105,25 +108,29 @@ namespace ex {
         Window();
         Window(Vec2i size, std::string _title);
 
+        inline GLFWwindow* get_handle() const { return window; }
+
     private:
-        static bool initialized;
-        static Window instance;
-        static GLFWwindow* window;
+        static std::unique_ptr<Window> instance;
+        GLFWwindow* window;
         std::string title;
         bool exist;
     };
 
     inline Window& Window::create(Vec2i size, std::string _title) {
-        static Window instance(size, std::move(_title));
-        return instance;
+        if (!instance) {
+            instance.reset(new Window(size, std::move(_title)));
+        }
+
+        return *instance;
     }
 
     inline Window& Window::get_instance() {
-        if (!initialized) {
+        if (!instance) {
             throw Exception("Window instance has not been initialized.");
         }
 
-        return instance;
+        return *instance;
     }
 
     inline Vec2i Window::get_size() const {
@@ -145,7 +152,7 @@ namespace ex {
     }
 
     inline void Window::set_title(std::string _title) {
-        glfwSetWindowTitle(window, title.c_str());
+        glfwSetWindowTitle(window, _title.c_str());
         title = std::move(_title);
     }
 

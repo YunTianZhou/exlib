@@ -3,14 +3,12 @@
 
 namespace ex {
 
-bool Window::initialized = false;
-Window Window::instance;
-GLFWwindow* Window::window = nullptr;
+std::unique_ptr<Window> Window::instance;
 
-Window::Window() : exist(false) {}
+Window::Window() : window(nullptr), exist(false) {}
 
 Window::Window(Vec2i size, std::string _title)
-    : exist(false), title(std::move(_title)) {
+    : window(nullptr), exist(false), title(std::move(_title)) {
 
     if (!glfwInit()) {
         throw Exception("GLFW init failed.");
@@ -37,7 +35,6 @@ Window::Window(Vec2i size, std::string _title)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    initialized = true;
     exist = true;
 }
 

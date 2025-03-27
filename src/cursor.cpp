@@ -5,28 +5,28 @@ namespace ex {
 
 Vec2d Cursor::get_position() {
     Vec2d pos;
-    glfwGetCursorPos(Window::window, &pos.x, &pos.y);
+    glfwGetCursorPos(Window::get_instance().get_handle(), &pos.x, &pos.y);
     return pos;
 }
 
 void Cursor::set_position(Vec2d pos) {
-    glfwSetCursorPos(Window::window, pos.x, pos.y);
+    glfwSetCursorPos(Window::get_instance().get_handle(), pos.x, pos.y);
 }
 
 bool Cursor::is_button_pressed(Button button) {
-    return glfwGetMouseButton(Window::window, (int) button) == GLFW_PRESS;
+    return glfwGetMouseButton(Window::get_instance().get_handle(), (int) button) == GLFW_PRESS;
 }
 
 void Cursor::hide() {
-    glfwSetInputMode(Window::window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    glfwSetInputMode(Window::get_instance().get_handle(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 }
 
 void Cursor::disable() {
-    glfwSetInputMode(Window::window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(Window::get_instance().get_handle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Cursor::normal() {
-    glfwSetInputMode(Window::window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    glfwSetInputMode(Window::get_instance().get_handle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
 void Cursor::set_position_callback(PositionCallback callback) {
@@ -39,7 +39,7 @@ void Cursor::set_position_callback(PositionCallback callback) {
         }
     };
 
-    glfwSetCursorPosCallback(Window::window, wrapper);
+    glfwSetCursorPosCallback(Window::get_instance().get_handle(), wrapper);
 }
 
 void Cursor::set_enter_callback(EnterCallback callback) {
@@ -52,7 +52,7 @@ void Cursor::set_enter_callback(EnterCallback callback) {
         }
     };
 
-    glfwSetCursorEnterCallback(Window::window, wrapper);
+    glfwSetCursorEnterCallback(Window::get_instance().get_handle(), wrapper);
 }
 
 void Cursor::set_mouse_button_callback(MouseButtonCallback callback) {
@@ -65,7 +65,7 @@ void Cursor::set_mouse_button_callback(MouseButtonCallback callback) {
         }
     };
 
-    glfwSetMouseButtonCallback(Window::window, wrapper);
+    glfwSetMouseButtonCallback(Window::get_instance().get_handle(), wrapper);
 }
 
 void Cursor::set_scroll_callback(ScrollCallback callback) {
@@ -78,23 +78,23 @@ void Cursor::set_scroll_callback(ScrollCallback callback) {
         }
     };
 
-    glfwSetScrollCallback(Window::window, wrapper);
+    glfwSetScrollCallback(Window::get_instance().get_handle(), wrapper);
 }
 
 void Cursor::disable_position_callback() {
-    glfwSetCursorPosCallback(Window::window, nullptr);
+    glfwSetCursorPosCallback(Window::get_instance().get_handle(), nullptr);
 }
 
 void Cursor::disable_enter_callback() {
-    glfwSetCursorEnterCallback(Window::window, nullptr);
+    glfwSetCursorEnterCallback(Window::get_instance().get_handle(), nullptr);
 }
 
 void Cursor::disable_mouse_button_callback() {
-    glfwSetMouseButtonCallback(Window::window, nullptr);
+    glfwSetMouseButtonCallback(Window::get_instance().get_handle(), nullptr);
 }
 
 void Cursor::disable_scroll_callback() {
-    glfwSetScrollCallback(Window::window, nullptr);
+    glfwSetScrollCallback(Window::get_instance().get_handle(), nullptr);
 }
 
 }

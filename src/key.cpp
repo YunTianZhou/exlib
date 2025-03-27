@@ -13,7 +13,7 @@ namespace ex {
 	}
 
 	bool Key::is_key_pressed(Type key) {
-		return glfwGetKey(Window::window, (int) (key)) == GLFW_PRESS;
+		return glfwGetKey(Window::get_instance().get_handle(), (int) (key)) == GLFW_PRESS;
 	}
 
 	void Key::set_button_callback(ButtonCallback callback) {
@@ -26,7 +26,7 @@ namespace ex {
 			}
 		};
 
-		glfwSetKeyCallback(Window::window, wrapper);
+		glfwSetKeyCallback(Window::get_instance().get_handle(), wrapper);
 	}
 
 	void Key::set_char_callback(CharCallback callback) {
@@ -39,15 +39,15 @@ namespace ex {
 			}
 		};
 
-		glfwSetCharCallback(Window::window, wrapper);
+		glfwSetCharCallback(Window::get_instance().get_handle(), wrapper);
 	}
 
 	void Key::disable_button_callback() {
-		glfwSetKeyCallback(Window::window, nullptr);
+		glfwSetKeyCallback(Window::get_instance().get_handle(), nullptr);
 	}
 
 	void Key::disable_char_callback() {
-		glfwSetCharCallback(Window::window, nullptr);
+		glfwSetCharCallback(Window::get_instance().get_handle(), nullptr);
 	}
 
 }
