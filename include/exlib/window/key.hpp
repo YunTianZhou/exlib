@@ -3,7 +3,7 @@
 #include <string>
 
 #include <GLFW/glfw3.h>
-#include "config.hpp"
+#include "exlib/core/config.hpp"
 
 namespace ex {
 

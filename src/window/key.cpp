@@ -1,5 +1,5 @@
-#include "exlib/key.hpp"
-#include "exlib/window.hpp"
+#include "exlib/window/key.hpp"
+#include "exlib/window/window.hpp"
 
 namespace ex {
 

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <exlib/user_pointer.hpp>
+#include <exlib/core/user_pointer.hpp>
 
 struct TestStruct {
     int value;

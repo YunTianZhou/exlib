@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <exlib/window.hpp>
+#include <exlib/window/window.hpp>
 
 void on_close() {
     std::cout << "Window closed!" << std::endl;

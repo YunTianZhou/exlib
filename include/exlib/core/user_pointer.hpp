@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "types.hpp"
+#include "exception.hpp"
 
 namespace ex {
 

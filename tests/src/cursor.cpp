@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <exlib/window.hpp>
-#include <exlib/cursor.hpp>
+#include <exlib/window/window.hpp>
+#include <exlib/window/cursor.hpp>
 
 void on_position(ex::Vec2d pos) {
     std::cout << "Cursor position: (" << pos.x << ", " << pos.y << ")" << std::endl;

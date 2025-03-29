@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <exlib/window.hpp>
-#include <exlib/key.hpp>
+#include <exlib/window/window.hpp>
+#include <exlib/window/key.hpp>
 
 void on_button(ex::Key::Type key, int scancode, ex::Key::Action action, int mods) {
     if (key == ex::Key::Type::A) {

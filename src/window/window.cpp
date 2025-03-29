@@ -1,5 +1,5 @@
 #include <GL/glew.h>
-#include "exlib/window.hpp"
+#include "exlib/window/window.hpp"
 
 namespace ex {
 

@@ -5,8 +5,8 @@
 #include <functional>
 
 #include <GLFW/glfw3.h>
-#include "user_pointer.hpp"
-#include "types.hpp"
+#include "exlib/core/user_pointer.hpp"
+#include "exlib/core/types.hpp"
 
 namespace ex {
 
