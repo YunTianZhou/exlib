@@ -12,6 +12,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(external/glfw)
 add_subdirectory(external/glew)
+add_subdirectory(external/glm)
 
 include_directories(include)
 include_directories(external/glfw/include)
@@ -24,6 +25,9 @@ target_compile_definitions(exlib_static PUBLIC EXLIB_STATIC)
 add_library(exlib_shared SHARED ${SRC_FILES})
 set_target_properties(exlib_shared PROPERTIES OUTPUT_NAME "exlib")
 target_compile_definitions(exlib_shared PRIVATE EXLIB_EXPORTS)
+
+target_include_directories(exlib_static PUBLIC external/glm)
+target_include_directories(exlib_shared PUBLIC external/glm)
 
 if(WIN32)
     target_link_libraries(exlib_static glfw libglew_static opengl32)
