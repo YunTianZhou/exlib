@@ -9,6 +9,7 @@
 #include <exlib/opengl/vertex_buffer.hpp>
 #include <exlib/opengl/vertex_array.hpp>
 #include <exlib/opengl/shader.hpp>
+#include <exlib/opengl/render.hpp>
 
 int main() {
     // Create a window
@@ -87,17 +88,8 @@ int main() {
         shader.bind();
         shader.set_uniform_matrix("uModel", model);
 
-        // Bind VAO and IBO
-        vao.bind();
-        ibo.bind();
-
         // Draw the triangle
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
-
-        // Unbind
-        ibo.unbind();
-        vao.unbind();
-        shader.unbind();
+        ex::gl::Render::draw_elements(ex::gl::Render::Mode::Triangles, vao, ibo, shader);
 
         // Swap buffers and poll events
         window.swap_buffers();
