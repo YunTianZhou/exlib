@@ -48,6 +48,8 @@ void VertexArray::add_buffer(const VertexBuffer& buffer, const std::vector<Eleme
         );
         offset += element.count * get_size_of_type(element.type);
     }
+
+    count = buffer.get_size() / stride;
 }
 
 }

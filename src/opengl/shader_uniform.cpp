@@ -30,13 +30,13 @@ void Shader::set_uniform_vec1(const std::string& name, const T& v0) {
     bind();
     GLuint location = get_uniform_location(name);
 
-    if constexpr (std::is_same_v<T, int> || std::is_same_v<T, GLint>) {
+    if constexpr (std::is_same_v<T, GLint>) {
         glUniform1i(location, v0);
     }
-    else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, GLfloat>) {
+    else if constexpr (std::is_same_v<T, GLfloat>) {
         glUniform1f(location, v0);
     }
-    else if constexpr (std::is_same_v<T, GLuint> || std::is_same_v<T, unsigned int>) {
+    else if constexpr (std::is_same_v<T, GLuint>) {
         glUniform1ui(location, v0);
     }
     else {
@@ -52,13 +52,13 @@ void Shader::set_uniform_vec2(const std::string& name, const T& v0, const T& v1)
     bind();
     GLuint location = get_uniform_location(name);
 
-    if constexpr (std::is_same_v<T, int> || std::is_same_v<T, GLint>) {
+    if constexpr (std::is_same_v<T, GLint>) {
         glUniform2i(location, v0, v1);
     }
-    else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, GLfloat>) {
+    else if constexpr (std::is_same_v<T, GLfloat>) {
         glUniform2f(location, v0, v1);
     }
-    else if constexpr (std::is_same_v<T, GLuint> || std::is_same_v<T, unsigned int>) {
+    else if constexpr (std::is_same_v<T, GLuint>) {
         glUniform2ui(location, v0, v1);
     }
     else {
@@ -74,13 +74,13 @@ void Shader::set_uniform_vec3(const std::string& name, const T& v0, const T& v1,
     bind();
     GLuint location = get_uniform_location(name);
 
-    if constexpr (std::is_same_v<T, int> || std::is_same_v<T, GLint>) {
+    if constexpr (std::is_same_v<T, GLint>) {
         glUniform3i(location, v0, v1, v2);
     }
-    else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, GLfloat>) {
+    else if constexpr (std::is_same_v<T, GLfloat>) {
         glUniform3f(location, v0, v1, v2);
     }
-    else if constexpr (std::is_same_v<T, GLuint> || std::is_same_v<T, unsigned int>) {
+    else if constexpr (std::is_same_v<T, GLuint>) {
         glUniform3ui(location, v0, v1, v2);
     }
     else {
@@ -96,17 +96,105 @@ void Shader::set_uniform_vec4(const std::string& name, const T& v0, const T& v1,
     bind();
     GLuint location = get_uniform_location(name);
 
-    if constexpr (std::is_same_v<T, int> || std::is_same_v<T, GLint>) {
+    if constexpr (std::is_same_v<T, GLint>) {
         glUniform4i(location, v0, v1, v2, v3);
     }
-    else if constexpr (std::is_same_v<T, float> || std::is_same_v<T, GLfloat>) {
+    else if constexpr (std::is_same_v<T, GLfloat>) {
         glUniform4f(location, v0, v1, v2, v3);
     }
-    else if constexpr (std::is_same_v<T, GLuint> || std::is_same_v<T, unsigned int>) {
+    else if constexpr (std::is_same_v<T, GLuint>) {
         glUniform4ui(location, v0, v1, v2, v3);
     }
     else {
         throw Exception("Unsupported type for set_uniform_vec4.");
+    }
+}
+
+// ========================================
+//      VEC1 ARRAY UNIFORMS
+// ========================================
+template <class T>
+void Shader::set_uniform_vec1_array(const std::string& name, GLsizei count, const T* value) {
+    bind();
+    GLuint location = get_uniform_location(name);
+
+    if constexpr (std::is_same_v<T, GLint>) {
+        glUniform1iv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLfloat>) {
+        glUniform1fv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLuint>) {
+        glUniform1uiv(location, count, value);
+    }
+    else {
+        throw Exception("Unsupported type for set_uniform_vec1_array.");
+    }
+}
+
+// ========================================
+//      VEC2 ARRAY UNIFORMS
+// ========================================
+template <class T>
+void Shader::set_uniform_vec2_array(const std::string& name, GLsizei count, const T* value) {
+    bind();
+    GLuint location = get_uniform_location(name);
+
+    if constexpr (std::is_same_v<T, GLint>) {
+        glUniform2iv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLfloat>) {
+        glUniform2fv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLuint>) {
+        glUniform2uiv(location, count, value);
+    }
+    else {
+        throw Exception("Unsupported type for set_uniform_vec2_array.");
+    }
+}
+
+// ========================================
+//      VEC3 ARRAY UNIFORMS
+// ========================================
+template <class T>
+void Shader::set_uniform_vec3_array(const std::string& name, GLsizei count, const T* value) {
+    bind();
+    GLuint location = get_uniform_location(name);
+
+    if constexpr (std::is_same_v<T, GLint>) {
+        glUniform3iv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLfloat>) {
+        glUniform3fv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLuint>) {
+        glUniform3uiv(location, count, value);
+    }
+    else {
+        throw Exception("Unsupported type for set_uniform_vec3_array.");
+    }
+}
+
+// ========================================
+//      VEC4 ARRAY UNIFORMS
+// ========================================
+template <class T>
+void Shader::set_uniform_vec4_array(const std::string& name, GLsizei count, const T* value) {
+    bind();
+    GLuint location = get_uniform_location(name);
+
+    if constexpr (std::is_same_v<T, GLint>) {
+        glUniform4iv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLfloat>) {
+        glUniform4fv(location, count, value);
+    }
+    else if constexpr (std::is_same_v<T, GLuint>) {
+        glUniform4uiv(location, count, value);
+    }
+    else {
+        throw Exception("Unsupported type for set_uniform_vec4_array.");
     }
 }
 
@@ -154,7 +242,7 @@ void Shader::set_uniform_matrix(const std::string& name, const T& matrix) {
 //      MATRIX ARRAY UNIFORMS
 // ========================================
 template<class T>
-void Shader::set_uniform_matrix_array(const std::string& name, int count, const T* matrices) {
+void Shader::set_uniform_matrix_array(const std::string& name, GLsizei count, const T* matrices) {
     bind();
     GLuint location = get_uniform_location(name);
 
@@ -193,6 +281,38 @@ void Shader::set_uniform_matrix_array(const std::string& name, int count, const 
 // ============================
 // EXPLICIT TEMPLATE INSTANTIATION
 // ============================
+
+template void Shader::set_uniform_vec1<GLint>(const std::string&, const GLint&);
+template void Shader::set_uniform_vec1<GLfloat>(const std::string&, const GLfloat&);
+template void Shader::set_uniform_vec1<GLuint>(const std::string&, const GLuint&);
+
+template void Shader::set_uniform_vec2<GLint>(const std::string&, const GLint&, const GLint&);
+template void Shader::set_uniform_vec2<GLfloat>(const std::string&, const GLfloat&, const GLfloat&);
+template void Shader::set_uniform_vec2<GLuint>(const std::string&, const GLuint&, const GLuint&);
+
+template void Shader::set_uniform_vec3<GLint>(const std::string&, const GLint&, const GLint&, const GLint&);
+template void Shader::set_uniform_vec3<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&);
+template void Shader::set_uniform_vec3<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&);
+
+template void Shader::set_uniform_vec4<GLint>(const std::string&, const GLint&, const GLint&, const GLint&, const GLint&);
+template void Shader::set_uniform_vec4<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&, const GLfloat&);
+template void Shader::set_uniform_vec4<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&, const GLuint&);
+
+template void Shader::set_uniform_vec1_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void Shader::set_uniform_vec1_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void Shader::set_uniform_vec1_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+
+template void Shader::set_uniform_vec2_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void Shader::set_uniform_vec2_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void Shader::set_uniform_vec2_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+
+template void Shader::set_uniform_vec3_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void Shader::set_uniform_vec3_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void Shader::set_uniform_vec3_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+
+template void Shader::set_uniform_vec4_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void Shader::set_uniform_vec4_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void Shader::set_uniform_vec4_array<GLuint>(const std::string&, GLsizei, const GLuint*);
 
 template void Shader::set_uniform_matrix<glm::mat2>(const std::string&, const glm::mat2&);
 template void Shader::set_uniform_matrix<glm::mat3>(const std::string&, const glm::mat3&);

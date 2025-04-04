@@ -54,12 +54,12 @@ public:
     template <class T> void set_uniform_vec2(const std::string& name, const T& v0, const T& v1);
     template <class T> void set_uniform_vec3(const std::string& name, const T& v0, const T& v1, const T& v2);
     template <class T> void set_uniform_vec4(const std::string& name, const T& v0, const T& v1, const T& v2, const T& v3);
-    template <class T> void set_uniform_vec1_array(const std::string& name, int count, const T* value);
-    template <class T> void set_uniform_vec2_array(const std::string& name, int count, const T* value);
-    template <class T> void set_uniform_vec3_array(const std::string& name, int count, const T* value);
-    template <class T> void set_uniform_vec4_array(const std::string& name, int count, const T* value);
+    template <class T> void set_uniform_vec1_array(const std::string& name, GLsizei count, const T* value);
+    template <class T> void set_uniform_vec2_array(const std::string& name, GLsizei count, const T* value);
+    template <class T> void set_uniform_vec3_array(const std::string& name, GLsizei count, const T* value);
+    template <class T> void set_uniform_vec4_array(const std::string& name, GLsizei count, const T* value);
     template <class T> void set_uniform_matrix(const std::string& name, const T& matrix);
-    template <class T> void set_uniform_matrix_array(const std::string& name, int count, const T* matrices);
+    template <class T> void set_uniform_matrix_array(const std::string& name, GLsizei count, const T* matrices);
 
 private:
     GLuint get_uniform_location(const std::string& name);

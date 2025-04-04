@@ -35,9 +35,12 @@ public:
     // Add buffer
     void add_buffer(const VertexBuffer& buffer, const std::vector<Element>& elements);
 
+    // Getters
+    inline GLsizei get_count() const { return count; }
 
 private:
     GLuint id;
+    GLsizei count;
 };
 
 }
