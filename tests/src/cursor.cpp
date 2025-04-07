@@ -44,8 +44,9 @@ int main() {
 
     // Main event loop
     while (window.is_open()) {
+        window.clear();
         window.poll_events();
-        window.swap_buffers();
+        window.display();
     }
 
     // Destroy the window

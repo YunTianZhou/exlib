@@ -15,36 +15,50 @@ struct EXLIB_API Vec2 {
     Vec2(T x, T y) : x(x), y(y) {}
 
     // Addition
-    Vec2 operator+(const Vec2& other) const { return Vec2(x + other.x, y + other.y); }
-    Vec2& operator+=(const Vec2& other) { x += other.x; y += other.y; return *this; }
+    inline Vec2 operator+(const Vec2& other) const { return Vec2(x + other.x, y + other.y); }
+    inline Vec2& operator+=(const Vec2& other) { x += other.x; y += other.y; return *this; }
 
     // Subtraction
-    Vec2 operator-(const Vec2& other) const { return Vec2(x - other.x, y - other.y); }
-    Vec2& operator-=(const Vec2& other) { x -= other.x; y -= other.y; return *this; }
+    inline Vec2 operator-() const { return Vec2(-x, -y); }
+    inline Vec2 operator-(const Vec2& other) const { return Vec2(x - other.x, y - other.y); }
+    inline Vec2& operator-=(const Vec2& other) { x -= other.x; y -= other.y; return *this; }
+
+    // Multiplication
+    inline Vec2 operator*(const Vec2& other) const { return Vec2(x * other.x, y * other.y); }
+    inline Vec2& operator*=(const Vec2& other) { x *= other.x; y *= other.y; return *this; }
+
+    // Division
+    inline Vec2 operator/(const Vec2& other) const { return Vec2(x / other.x, y / other.y); }
+    inline Vec2& operator/=(const Vec2& other) { x /= other.x; y /= other.y; return *this; }
 
     // Scalar multiplication
-    Vec2 operator*(T scalar) const { return Vec2(x * scalar, y * scalar); }
-    Vec2& operator*=(T scalar) { x *= scalar; y *= scalar; return *this; }
+    inline Vec2 operator*(T scalar) const { return Vec2(x * scalar, y * scalar); }
+    inline Vec2& operator*=(T scalar) { x *= scalar; y *= scalar; return *this; }
 
     // Scalar division
-    Vec2 operator/(T scalar) const { return Vec2(x / scalar, y / scalar); }
-    Vec2& operator/=(T scalar) { x /= scalar; y /= scalar; return *this; }
+    inline Vec2 operator/(T scalar) const { return Vec2(x / scalar, y / scalar); }
+    inline Vec2& operator/=(T scalar) { x /= scalar; y /= scalar; return *this; }
 
     // Dot product
-    T dot(const Vec2& other) const { return x * other.x + y * other.y; }
+    inline T dot(const Vec2& other) const { return x * other.x + y * other.y; }
 
     // Magnitude
-    T magnitude() const { return std::sqrt(x * x + y * y); }
+    inline T magnitude() const { return std::sqrt(x * x + y * y); }
 
     // Normalization
-    Vec2 normalized() const {
+    inline Vec2 normalized() const {
         T mag = magnitude();
         return (mag == 0) ? Vec2(0, 0) : Vec2(x / mag, y / mag);
     }
 
+    // Perpendicular
+    inline Vec2 perpendicular() const { 
+        return Vec2(-y, x);
+    }
+
     // Equality check
-    bool operator==(const Vec2& other) const { return x == other.x && y == other.y; }
-    bool operator!=(const Vec2& other) const { return !(*this == other); }
+    inline bool operator==(const Vec2& other) const { return x == other.x && y == other.y; }
+    inline bool operator!=(const Vec2& other) const { return !(*this == other); }
 };
 
 template <class T>
@@ -55,26 +69,34 @@ struct EXLIB_API Vec3 {
     Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
 
     // Addition
-    Vec3 operator+(const Vec3& other) const { return Vec3(x + other.x, y + other.y, z + other.z); }
-    Vec3& operator+=(const Vec3& other) { x += other.x; y += other.y; z += other.z; return *this; }
+    inline Vec3 operator+(const Vec3& other) const { return Vec3(x + other.x, y + other.y, z + other.z); }
+    inline Vec3& operator+=(const Vec3& other) { x += other.x; y += other.y; z += other.z; return *this; }
 
     // Subtraction
-    Vec3 operator-(const Vec3& other) const { return Vec3(x - other.x, y - other.y, z - other.z); }
-    Vec3& operator-=(const Vec3& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
+    inline Vec3 operator-(const Vec3& other) const { return Vec3(x - other.x, y - other.y, z - other.z); }
+    inline Vec3& operator-=(const Vec3& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
+
+    // Multiplication
+    inline Vec3 operator*(const Vec3& other) const { return Vec3(x * other.x, y * other.y, z * other.z); }
+    inline Vec3& operator*=(const Vec3& other) { x *= other.x; y *= other.y; z *= other.z; return *this; }
+
+    // Division
+    inline Vec3 operator/(const Vec3& other) const { return Vec3(x / other.x, y / other.y, z / other.z); }
+    inline Vec3& operator/=(const Vec3& other) { x /= other.x; y /= other.y; z /= other.z; return *this; }
 
     // Scalar multiplication
-    Vec3 operator*(T scalar) const { return Vec3(x * scalar, y * scalar, z * scalar); }
-    Vec3& operator*=(T scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
+    inline Vec3 operator*(T scalar) const { return Vec3(x * scalar, y * scalar, z * scalar); }
+    inline Vec3& operator*=(T scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
 
     // Scalar division
-    Vec3 operator/(T scalar) const { return Vec3(x / scalar, y / scalar, z / scalar); }
-    Vec3& operator/=(T scalar) { x /= scalar; y /= scalar; z /= scalar; return *this; }
+    inline Vec3 operator/(T scalar) const { return Vec3(x / scalar, y / scalar, z / scalar); }
+    inline Vec3& operator/=(T scalar) { x /= scalar; y /= scalar; z /= scalar; return *this; }
 
     // Dot product
-    T dot(const Vec3& other) const { return x * other.x + y * other.y + z * other.z; }
+    inline T dot(const Vec3& other) const { return x * other.x + y * other.y + z * other.z; }
 
     // Cross product
-    Vec3 cross(const Vec3& other) const {
+    inline Vec3 cross(const Vec3& other) const {
         return Vec3(
             y * other.z - z * other.y,
             z * other.x - x * other.z,
@@ -83,17 +105,17 @@ struct EXLIB_API Vec3 {
     }
 
     // Magnitude
-    T magnitude() const { return std::sqrt(x * x + y * y + z * z); }
+    inline T magnitude() const { return std::sqrt(x * x + y * y + z * z); }
 
     // Normalization
-    Vec3 normalized() const {
+    inline Vec3 normalized() const {
         T mag = magnitude();
         return (mag == 0) ? Vec3(0, 0, 0) : Vec3(x / mag, y / mag, z / mag);
     }
 
     // Equality check
-    bool operator==(const Vec3& other) const { return x == other.x && y == other.y && z == other.z; }
-    bool operator!=(const Vec3& other) const { return !(*this == other); }
+    inline bool operator==(const Vec3& other) const { return x == other.x && y == other.y && z == other.z; }
+    inline bool operator!=(const Vec3& other) const { return !(*this == other); }
 };
 
 struct EXLIB_API Color {

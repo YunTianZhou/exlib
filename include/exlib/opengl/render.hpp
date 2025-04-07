@@ -29,10 +29,6 @@ public:
 public:
 	Render() = delete;
 
-	static void clear();
-	static void set_clear_color(Color color);
-	static void set_viewport(Vec2i pos, Vec2i size);
-
 	static void draw_arrays(Mode mode, const VertexArray& vao, const Shader& shader, GLint first = 0, GLsizei count = -1);
 	static void draw_elements(Mode mode, const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader, GLint first = 0, GLsizei count = -1);
 

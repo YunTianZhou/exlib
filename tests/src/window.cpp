@@ -88,8 +88,9 @@ int main() {
 
     // Main event loop
     while (window.is_open()) {
+        window.clear(ex::Color::Magenta);
+        window.display();
         window.poll_events();
-        window.swap_buffers();
     }
 
     // Destroy the window

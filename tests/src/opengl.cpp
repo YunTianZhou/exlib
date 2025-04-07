@@ -69,13 +69,13 @@ int main() {
     ex::gl::Shader shader(source);
 
     // Set swapping interval
-    window.set_swap_interval(1);
+    window.set_display_interval(1);
 
     // Main event loop
     float angle = 0.0f;  // Rotation angle
     while (window.is_open()) {
         // Clear the screen
-        glClear(GL_COLOR_BUFFER_BIT);
+        window.clear();
 
         // Increase rotation angle over time
         angle += 0.01f;
@@ -92,7 +92,7 @@ int main() {
         ex::gl::Render::draw_elements(ex::gl::Render::Mode::Triangles, vao, ibo, shader);
 
         // Swap buffers and poll events
-        window.swap_buffers();
+        window.display();
         window.poll_events();
     }
 
