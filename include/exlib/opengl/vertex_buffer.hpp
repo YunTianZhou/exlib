@@ -9,7 +9,7 @@ class EXLIB_API VertexBuffer {
 public:
     // Constructors and destructors
     explicit VertexBuffer(BufferUsage usage);
-    VertexBuffer(BufferUsage usage, const void* data, GLuint size);
+    VertexBuffer(BufferUsage usage, const void* data, GLsizei size);
     ~VertexBuffer();
 
     // Copy and Move
@@ -25,11 +25,11 @@ public:
 
     // Getters
     inline BufferUsage get_usage() const { return usage; }
-    inline GLuint get_size() const { return size; }
+    inline GLsizei get_size() const { return size; }
 
     // Setters
-    void set_data(const void* data, GLuint size);
-    void update_sub_data(const void* data, GLuint offset, GLuint size);
+    void set_data(const void* data, GLsizei _size);
+    void update_sub_data(const void* data, GLuint offset, GLsizei _size);
 
     void* map(BufferAccess access);
     void unmap() const;
@@ -40,7 +40,7 @@ public:
 private:
     BufferUsage usage;
     GLuint id;
-    GLuint size;
+    GLsizei size;
 };
 
 }

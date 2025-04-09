@@ -3,7 +3,8 @@
 
 namespace ex::gl {
 
-VertexArray::VertexArray() {
+VertexArray::VertexArray()
+    : id(0), bound_buffer(nullptr) {
     glGenVertexArrays(1, &id);
 }
 
@@ -12,31 +13,34 @@ VertexArray::~VertexArray() {
 }
 
 VertexArray::VertexArray(VertexArray&& other)
-    : id(other.id) {
+    : id(other.id), bound_buffer(other.bound_buffer) {
     other.id = 0;
+    other.bound_buffer = nullptr;
 }
 
 VertexArray& VertexArray::operator=(VertexArray&& other) {
     if (this != &other) {
         glDeleteVertexArrays(1, &id);
         id = other.id;
+        bound_buffer = other.bound_buffer;
         other.id = 0;
+        other.bound_buffer = nullptr;
     }
     return *this;
 }
 
-void VertexArray::add_buffer(const VertexBuffer& buffer, const std::vector<Element>& elements) {
+void VertexArray::set_layout(const VertexBuffer& buffer, const std::vector<Element>& layout) {
     bind();
     buffer.bind();
 
     GLuint stride = 0;
-    for (const auto& element : elements) {
+    for (const auto& element : layout) {
         stride += element.count * get_size_of_type(element.type);
     }
 
     GLuint offset = 0;
-    for (GLuint i = 0; i < elements.size(); i++) {
-        const auto& element = elements[i];
+    for (GLuint i = 0; i < layout.size(); i++) {
+        const auto& element = layout[i];
         glEnableVertexAttribArray(i);
         glVertexAttribPointer(
             i,
@@ -49,7 +53,7 @@ void VertexArray::add_buffer(const VertexBuffer& buffer, const std::vector<Eleme
         offset += element.count * get_size_of_type(element.type);
     }
 
-    count = buffer.get_size() / stride;
+    bound_buffer = &buffer;
 }
 
 }

@@ -14,6 +14,10 @@ struct EXLIB_API Vec2 {
     Vec2() : x(0), y(0) {}
     Vec2(T x, T y) : x(x), y(y) {}
 
+    // Casting
+    template <class U>
+    inline explicit operator Vec2<U>() const { return Vec2<U>((U) (x), (U) (y)); }
+
     // Addition
     inline Vec2 operator+(const Vec2& other) const { return Vec2(x + other.x, y + other.y); }
     inline Vec2& operator+=(const Vec2& other) { x += other.x; y += other.y; return *this; }
@@ -67,6 +71,10 @@ struct EXLIB_API Vec3 {
 
     Vec3() : x(0), y(0), z(0) {}
     Vec3(T x, T y, T z) : x(x), y(y), z(z) {}
+
+    // Casting
+    template <class U>
+    inline explicit operator Vec3<U>() const { return Vec3<U>((U) (x), (U) (y), (U) (z)); }
 
     // Addition
     inline Vec3 operator+(const Vec3& other) const { return Vec3(x + other.x, y + other.y, z + other.z); }

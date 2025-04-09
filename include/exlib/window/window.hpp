@@ -44,7 +44,6 @@ public:
     inline void set_position(Vec2i position) const { glfwSetWindowPos(window, position.x, position.y); }
     inline void set_size_limit(Vec2i min, Vec2i max) const { glfwSetWindowSizeLimits(window, min.x, min.y, max.x, max.y); }
     inline void disable_size_limit() const { glfwSetWindowSizeLimits(window, -1, -1, -1, -1); }
-    inline void set_viewport(Vec2i pos, Vec2i size) const { glViewport(pos.x, pos.y, size.x, size.y); }
 
     inline void set_title(std::string _title);
     inline void set_icon(int& icon) const = delete;  // Not implemented
@@ -163,13 +162,16 @@ inline void Window::set_title(std::string _title) {
 
 inline void ex::Window::clear(Color color) const {
     glClearColor(color.r / 255.0f,
-        color.g / 255.0f,
-        color.b / 255.0f,
-        color.a / 255.0f);
+                 color.g / 255.0f,
+                 color.b / 255.0f,
+                 color.a / 255.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 inline void Window::display() const {
+    Vec2i framebuffer_size = get_framebuffer_size();
+    glViewport(0, 0, framebuffer_size.x, framebuffer_size.y);
+
     glfwSwapBuffers(window);
 }
 

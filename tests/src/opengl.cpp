@@ -41,7 +41,7 @@ int main() {
     // Create Vertex Array and configure layout
     ex::gl::VertexArray vao;
     vao.bind();
-    vao.add_buffer(vbo, { { 3, ex::gl::Type::Float, false } });
+    vao.set_layout(vbo, { { 3, ex::gl::Type::Float, false } });
     vao.unbind();
 
     // Shader source
@@ -89,7 +89,7 @@ int main() {
         shader.set_uniform_matrix("uModel", model);
 
         // Draw the triangle
-        ex::gl::Render::draw_elements(ex::gl::Render::Mode::Triangles, vao, ibo, shader);
+        ex::gl::Render::draw_elements(ex::gl::PrimitiveType::Triangles, vao, ibo, shader);
 
         // Swap buffers and poll events
         window.display();

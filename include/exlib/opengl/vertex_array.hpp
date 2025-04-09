@@ -32,15 +32,15 @@ public:
     inline void bind() const { glBindVertexArray(id); }
     inline void unbind() const { glBindVertexArray(0); }
 
-    // Add buffer
-    void add_buffer(const VertexBuffer& buffer, const std::vector<Element>& elements);
+    // Set layout
+    void set_layout(const VertexBuffer& buffer, const std::vector<Element>& layout);
 
     // Getters
-    inline GLsizei get_count() const { return count; }
+    inline const VertexBuffer* get_bound_buffer() const { return bound_buffer; } ;
 
 private:
     GLuint id;
-    GLsizei count;
+    const VertexBuffer* bound_buffer;
 };
 
 }

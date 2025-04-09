@@ -7,7 +7,7 @@ VertexBuffer::VertexBuffer(BufferUsage usage)
     glGenBuffers(1, &id);
 }
 
-VertexBuffer::VertexBuffer(BufferUsage usage, const void* data, GLuint size)
+VertexBuffer::VertexBuffer(BufferUsage usage, const void* data, GLsizei size)
     : usage(usage), size(size) {
     glGenBuffers(1, &id);
     bind();
@@ -48,15 +48,15 @@ VertexBuffer VertexBuffer::copy() const {
     return new_buffer;
 }
 
-void VertexBuffer::set_data(const void* data, GLuint _size) {
+void VertexBuffer::set_data(const void* data, GLsizei _size) {
     size = _size;
     bind();
     glBufferData(GL_ARRAY_BUFFER, _size, data, (GLenum) (usage));
 }
 
-void VertexBuffer::update_sub_data(const void* data, GLuint offset, GLuint size) {
+void VertexBuffer::update_sub_data(const void* data, GLuint offset, GLsizei _size) {
     bind();
-    glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+    glBufferSubData(GL_ARRAY_BUFFER, offset, _size, data);
 }
 
 void* VertexBuffer::map(BufferAccess access) {

@@ -6,17 +6,17 @@
 
 namespace ex::gl {
 
-void Render::draw_arrays(Mode mode, const VertexArray& vao, const Shader& shader, GLint first, GLsizei count) {
+void Render::draw_arrays(PrimitiveType type, const VertexArray& vao, const Shader& shader, GLint first, GLsizei size) {
     vao.bind();
     shader.bind();
 
-    if (count == -1)
-        count = vao.get_count();
+    if (size == -1)
+        size = vao.get_bound_buffer()->get_size();
 
-    glDrawArrays((GLenum) (mode), first, count);
+    glDrawArrays((GLenum) (type), first, size);
 }
 
-void Render::draw_elements(Mode mode, const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader, GLint first, GLsizei count) {
+void Render::draw_elements(PrimitiveType type, const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader, GLint first, GLsizei count) {
     vao.bind();
     ibo.bind();
     shader.bind();
@@ -24,7 +24,7 @@ void Render::draw_elements(Mode mode, const VertexArray& vao, const IndexBuffer&
     if (count == -1)
         count = ibo.get_count();
 
-    glDrawElements((GLenum) (mode), count, GL_UNSIGNED_INT, (void*) (first * sizeof(GLuint)));
+    glDrawElements((GLenum) (type), count, GL_UNSIGNED_INT, (void*) (first * sizeof(GLuint)));
 }
 
 }
