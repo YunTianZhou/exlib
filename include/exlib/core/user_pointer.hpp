@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <optional>
 
-#include "types.hpp"
-#include "exception.hpp"
+#include "exlib/core/types.hpp"
+#include "exlib/core/exception.hpp"
 
 namespace ex {
 

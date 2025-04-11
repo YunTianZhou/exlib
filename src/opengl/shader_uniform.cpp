@@ -1,4 +1,5 @@
 #include <glm/gtc/type_ptr.hpp>
+
 #include "exlib/opengl/shader.hpp"
 #include "exlib/core/exception.hpp"
 

@@ -3,7 +3,8 @@
 #include <vector>
 
 #include <GL/glew.h>
-#include "types.hpp"
+
+#include "exlib/opengl/types.hpp"
 
 namespace ex::gl {
 

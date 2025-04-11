@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include <GL/glew.h>
+
 #include "exlib/core/config.hpp"
 
 namespace ex::gl {

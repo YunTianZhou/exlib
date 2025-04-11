@@ -6,6 +6,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include "exlib/core/user_pointer.hpp"
 #include "exlib/core/types.hpp"
 

@@ -3,7 +3,7 @@
 #include <string>
 #include <cmath>
 
-#include "config.hpp"
+#include "exlib/core/config.hpp"
 
 namespace ex {
 
