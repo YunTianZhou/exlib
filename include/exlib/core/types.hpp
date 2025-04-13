@@ -46,6 +46,9 @@ struct EXLIB_API Vec2 {
     // Dot product
     inline T dot(const Vec2& other) const { return x * other.x + y * other.y; }
 
+    // Cross product
+    inline T cross(const Vec2& other) const { return x * other.y - y * other.x; }
+
     // Magnitude
     inline T magnitude() const { return std::sqrt(x * x + y * y); }
 
