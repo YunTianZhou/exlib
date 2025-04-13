@@ -27,7 +27,9 @@ set_target_properties(exlib_shared PROPERTIES OUTPUT_NAME "exlib")
 target_compile_definitions(exlib_shared PRIVATE EXLIB_EXPORTS)
 
 target_include_directories(exlib_static PUBLIC external/glm)
+target_include_directories(exlib_static PUBLIC external/stb)
 target_include_directories(exlib_shared PUBLIC external/glm)
+target_include_directories(exlib_shared PUBLIC external/stb)
 
 if(WIN32)
     target_link_libraries(exlib_static glfw libglew_static opengl32)
