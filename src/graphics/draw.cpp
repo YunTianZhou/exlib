@@ -86,8 +86,7 @@ void Draw::init_texture_pipeline() {
 void Draw::draw_color(const std::vector<Vertex>& vertices, const State& state) {
     init_color_pipeline();
 
-    int size = (int) (vertices.size());
-    if (size < 3) {
+    if (vertices.size() < 3) {
         return;
     }
 

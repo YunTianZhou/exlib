@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 file(GLOB SRC_FILES src/*.cpp)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
+set(IMG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/img)
 
 set(EXLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 add_subdirectory(${EXLIB_DIR} ${CMAKE_BINARY_DIR}/exlib)
@@ -17,5 +18,7 @@ foreach(TEST_SOURCE ${SRC_FILES})
     
     add_executable(${TEST_NAME} ${TEST_SOURCE})
     
+    target_compile_definitions(${TEST_NAME} PUBLIC IMG_DIR=\"${IMG_DIR}/\")
+
     target_link_libraries(${TEST_NAME} exlib_static)
 endforeach()

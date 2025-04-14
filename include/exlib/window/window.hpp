@@ -7,6 +7,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "exlib/graphics/image.hpp"
 #include "exlib/core/user_pointer.hpp"
 #include "exlib/core/types.hpp"
 
@@ -47,9 +48,9 @@ public:
     inline void disable_size_limit() const { glfwSetWindowSizeLimits(window, -1, -1, -1, -1); }
 
     inline void set_title(std::string _title);
-    inline void set_icon(int& icon) const = delete;  // Not implemented
-    inline void set_icon(int icons[], int size) const = delete;  // Not implemented
-    inline void set_default_icon() const { glfwSetWindowIcon(window, 0, nullptr); }
+    inline void set_icon(const Image& image) const;
+    inline void set_icon(Vec2i size, const unsigned char* pixels) const;
+    inline void set_default_icon() const;
 
     inline void set_aspect_ratio(int numer, int denom) const { glfwSetWindowAspectRatio(window, numer, denom); }
     inline void disable_aspect_ratio() const { glfwSetWindowAspectRatio(window, -1, -1); }
@@ -159,6 +160,22 @@ inline Vec2i Window::get_position() const {
 inline void Window::set_title(std::string _title) {
     glfwSetWindowTitle(window, _title.c_str());
     title = std::move(_title);
+}
+
+inline void Window::set_icon(const Image& image) const {
+    set_icon(image.get_size(), image.get_pixels());
+}
+
+inline void Window::set_icon(Vec2i size, const unsigned char* pixels) const {
+    GLFWimage images[1];
+    images[0].width = size.x;
+    images[0].height = size.y;
+    images[0].pixels = const_cast<unsigned char*>(pixels);
+    glfwSetWindowIcon(window, 1, images);
+}
+
+inline void Window::set_default_icon() const {
+    glfwSetWindowIcon(window, 1, nullptr);
 }
 
 inline void ex::Window::clear(Color color) const {
