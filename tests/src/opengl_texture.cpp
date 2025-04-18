@@ -31,7 +31,7 @@ static std::vector<unsigned char> generate_checkerboard(int width, int height, i
 
 int main() {
     // Create window
-    ex::Window& window = ex::Window::create({ 800, 600 }, "Texture Test");
+    ex::Window& window = ex::Window::create({ 800, 600 }, "OpenGL Texture Test");
     if (!window.is_open()) {
         std::cerr << "Failed to create window" << std::endl;
         return -1;

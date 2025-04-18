@@ -2,6 +2,7 @@
 
 #include "exlib/graphics/shape.hpp"
 #include "exlib/graphics/draw.hpp"
+#include "exlib/graphics/texture.hpp"
 
 namespace ex {
 
@@ -32,6 +33,20 @@ inline static FloatRect compute_bounds(const std::vector<Vertex>& vertices) {
 	}
 
 	return FloatRect(min_x, min_y, max_x - min_x, max_y - min_y);
+}
+
+void Shape::set_texture(const Texture* _texture, bool reset_rect) {
+	if (_texture) {
+		if (reset_rect || (!texture && (texture_rect == IntRect{})))
+			set_texture_rect(IntRect({ 0, 0 }, Vec2i(_texture->get_size())));
+	}
+
+	texture = _texture;
+}
+
+void Shape::set_texture_rect(const IntRect& rect) {
+	texture_rect = rect;
+	update_tex_coords();
 }
 
 void Shape::set_fill_color(Color color) {
@@ -110,6 +125,7 @@ void Shape::update() {
 	fill_vertices[0].pos = inside_bounds.get_center();
 	
 	update_fill_color();
+	update_tex_coords();
 	update_outline();
 }
 
@@ -118,7 +134,8 @@ void Shape::draw() const {
 
 	Draw::State state = {
 		PrimitiveType::TriangleFan,
-		&transform
+		&transform,
+		texture
 	};
 
 	if (get_point_count() >= 3 && !fill_vertices.empty()) {
@@ -127,6 +144,7 @@ void Shape::draw() const {
 
 	if (outline_thickness != 0.0f && !outline_vertices.empty()) {
 		state.type = PrimitiveType::TriangleStrip;
+		state.texture = nullptr;
 		Draw::draw(outline_vertices, state);
 	}
 }
@@ -134,6 +152,20 @@ void Shape::draw() const {
 void Shape::update_fill_color() {
 	for (auto& vertex : fill_vertices) {
 		vertex.color = fill_color;
+	}
+}
+
+void Shape::update_tex_coords() {
+	FloatRect rect(texture_rect);
+
+	Vec2f inside_size(
+		inside_bounds.size.x > 0 ? inside_bounds.size.x : 1.0f,
+		inside_bounds.size.y > 0 ? inside_bounds.size.y : 1.0f
+	);
+
+	for (auto& vertex : fill_vertices) {
+		Vec2f ratio = (vertex.pos - inside_bounds.pos) / inside_size;
+		vertex.tex_coords = rect.pos + ratio * rect.size;
 	}
 }
 
