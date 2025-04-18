@@ -45,7 +45,7 @@ int main() {
         window.clear();
 
         // Draw the hexagon
-        ex::Draw::State state(ex::gl::PrimitiveType::TriangleFan);
+        ex::Draw::State state(ex::PrimitiveType::TriangleFan);
         ex::Draw::draw(vertices, state);
 
         // Swap buffers and poll events

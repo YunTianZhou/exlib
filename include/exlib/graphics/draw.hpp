@@ -19,11 +19,11 @@ namespace gl {
 class EXLIB_API Draw {
 public:
 	struct State {
-		gl::PrimitiveType type;
+		PrimitiveType type;
 		const glm::mat4* transform = nullptr;
 
 		State() = default;
-		State(gl::PrimitiveType type, const glm::mat4* transform = nullptr)
+		State(PrimitiveType type, const glm::mat4* transform = nullptr)
 			: type(type), transform(transform) {}
 	};
 

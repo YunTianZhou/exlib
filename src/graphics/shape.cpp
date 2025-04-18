@@ -117,7 +117,7 @@ void Shape::draw() const {
 	const glm::mat4& transform = get_transform();
 
 	Draw::State state = {
-		gl::PrimitiveType::TriangleFan,
+		PrimitiveType::TriangleFan,
 		&transform
 	};
 
@@ -126,7 +126,7 @@ void Shape::draw() const {
 	}
 
 	if (outline_thickness != 0.0f && !outline_vertices.empty()) {
-		state.type = gl::PrimitiveType::TriangleStrip;
+		state.type = PrimitiveType::TriangleStrip;
 		Draw::draw(outline_vertices, state);
 	}
 }

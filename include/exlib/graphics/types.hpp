@@ -4,8 +4,11 @@
 #include <algorithm>
 
 #include "exlib/core/types.hpp"
+#include "exlib/opengl/types.hpp"
 
 namespace ex {
+
+using PrimitiveType = gl::PrimitiveType;
 
 struct EXLIB_API Vertex {
 	Vec2f pos;
