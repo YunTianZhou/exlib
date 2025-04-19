@@ -34,16 +34,16 @@ public:
 	Draw() = delete;
 
 	static void draw(const std::vector<Vertex>& vertices, const State& state);
+	static void draw(const Vertex* start, int count, const State& state);
 	static void draw(const Drawable& drawable);
-	static void draw(const std::vector<Drawable>& drawables);
 
 private:
 	static void init_color_pipeline();
 	static void init_texture_pipeline();
 
 	static glm::mat4 get_ortho_transform(const glm::mat4* _transform);
-	static void draw_color(const std::vector<Vertex>& vertices, const State& state);
-	static void draw_texture(const std::vector<Vertex>& vertices, const State& state);
+	static void draw_color(const Vertex* start, int count, const State& state);
+	static void draw_texture(const Vertex* start, int count, const State& state);
 
 private:
 	static std::unique_ptr<gl::VertexBuffer> color_vbo;

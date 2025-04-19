@@ -19,20 +19,21 @@ std::unique_ptr<gl::VertexBuffer>   Draw::texture_vbo = nullptr;
 std::unique_ptr<gl::VertexArray>    Draw::texture_vao = nullptr;
 
 void Draw::draw(const std::vector<Vertex>& vertices, const State& state) {
-    if (state.texture == nullptr)
-        draw_color(vertices, state);
+    if (!state.texture)
+        draw_color(vertices.data(), (int) vertices.size(), state);
     else
-        draw_texture(vertices, state);
+        draw_texture(vertices.data(), (int) vertices.size(), state);
+}
+
+void Draw::draw(const Vertex* start, int count, const State& state) {
+    if (!state.texture)
+        draw_color(start, count, state);
+    else
+        draw_texture(start, count, state);
 }
 
 void Draw::draw(const Drawable& drawable) {
     drawable.draw();
-}
-
-void Draw::draw(const std::vector<Drawable>& drawables) {
-    for (const auto& d : drawables) {
-        d.draw();
-    }
 }
 
 void Draw::init_color_pipeline() {
@@ -122,39 +123,41 @@ glm::mat4 Draw::get_ortho_transform(const glm::mat4* _transform) {
     return ortho * transform;
 }
 
-void Draw::draw_color(const std::vector<Vertex>& vertices, const State& state) {
+void Draw::draw_color(const Vertex* start, int count, const State& state) {
     init_color_pipeline();
-    if (vertices.size() < 3) return;
+    if (count <= 0) return;
 
     std::vector<GLfloat> data;
-    data.reserve(vertices.size() * 6);
-    for (auto& v : vertices) {
-        data.push_back(v.pos.x);
-        data.push_back(v.pos.y);
-        data.push_back(v.color.r / 255.0f);
-        data.push_back(v.color.g / 255.0f);
-        data.push_back(v.color.b / 255.0f);
-        data.push_back(v.color.a / 255.0f);
+    data.reserve(count * 6);
+    while (count--) {
+        data.push_back(start->pos.x);
+        data.push_back(start->pos.y);
+        data.push_back(start->color.r / 255.0f);
+        data.push_back(start->color.g / 255.0f);
+        data.push_back(start->color.b / 255.0f);
+        data.push_back(start->color.a / 255.0f);
+        start++;
     }
     color_vbo->set_data(data.data(), GLsizei(data.size() * sizeof(GLfloat)));
 
     color_shader->set_uniform_matrix("u_transform", get_ortho_transform(state.transform));
-
+    
     gl::Render::draw_arrays(state.type, *color_vao, *color_shader);
 }
 
-void Draw::draw_texture(const std::vector<Vertex>& vertices, const State& state) {
+void Draw::draw_texture(const Vertex* start, int count, const State& state) {
     init_texture_pipeline();
-    if (vertices.size() < 3) return;
+    if (count <= 0) return;
 
     std::vector<GLfloat> data;
-    data.reserve(vertices.size() * 4);
+    data.reserve(count * 4);
     Vec2f texture_size(state.texture->get_size());
-    for (auto& v : vertices) {
-        data.push_back(v.pos.x);
-        data.push_back(v.pos.y);
-        data.push_back(v.tex_coords.x / texture_size.x);
-        data.push_back(v.tex_coords.y / texture_size.y);
+    while (count--) {
+        data.push_back(start->pos.x);
+        data.push_back(start->pos.y);
+        data.push_back(start->tex_coords.x / texture_size.x);
+        data.push_back(start->tex_coords.y / texture_size.y);
+        start++;
     }
     texture_vbo->set_data(data.data(), GLsizei(data.size() * sizeof(GLfloat)));
 
