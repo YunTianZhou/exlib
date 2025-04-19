@@ -14,7 +14,7 @@ class EXLIB_API Render {
 public:
 	Render() = delete;
 
-	static void draw_arrays(PrimitiveType type, const VertexArray& vao, const Shader& shader, GLint first = 0, GLsizei size = -1);
+	static void draw_arrays(PrimitiveType type, const VertexArray& vao, const Shader& shader, GLint first = 0, GLsizei count = -1);
 	static void draw_elements(PrimitiveType type, const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader, GLint first = 0, GLsizei count = -1);
 
 };

@@ -1,10 +1,12 @@
+#pragma once
+
 #include "exlib/graphics/shape.hpp"
 
 namespace ex {
 
 class EXLIB_API RectShape : public Shape {
 public:
-    RectShape(Vec2f _size = {}) { set_size(_size); }
+    RectShape(Vec2f _size = Vec2f{}) { set_size(_size); }
 
     virtual ~RectShape() = default;
 
@@ -31,7 +33,7 @@ public:
         }
     }
 
-    Vec2f get_geometric_center() const override {
+    inline Vec2f get_geometric_center() const override {
         return size / 2.0f;
     }
 

@@ -24,7 +24,7 @@ int main() {
     vertices.push_back(ex::Vertex({ center.x, center.y }, { 255, 255, 255, 255 }));
 
     // Calculate and add the surrounding vertices for the hexagon
-    for (int i = 0; i <= 6; i++) {
+    for (int i = 0; i < 6; i++) {
         constexpr float PI = 3.1415927f;
         float angle = i * 2.0f * PI / 6.0f; // 360 degrees / 6 sides
         ex::Vec2f vertex = {
@@ -35,7 +35,7 @@ int main() {
         ex::Color color = { (uint8_t) (255 * cos(angle)), (uint8_t) (255 * sin(angle)), 128, 255 };
         vertices.push_back(ex::Vertex(vertex, color));
     }
-    vertices.push_back(vertices[0]);
+    vertices.push_back(vertices[1]);
 
     // Set swapping interval
     window.set_display_interval(1);

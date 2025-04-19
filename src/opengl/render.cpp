@@ -6,14 +6,14 @@
 
 namespace ex::gl {
 
-void Render::draw_arrays(PrimitiveType type, const VertexArray& vao, const Shader& shader, GLint first, GLsizei size) {
+void Render::draw_arrays(PrimitiveType type, const VertexArray& vao, const Shader& shader, GLint first, GLsizei count) {
     vao.bind();
     shader.bind();
 
-    if (size == -1)
-        size = vao.get_bound_buffer()->get_size();
+    if (count < 0)
+        count = vao.get_count();
 
-    glDrawArrays((GLenum) (type), first, size);
+    glDrawArrays((GLenum) (type), first, count);
 }
 
 void Render::draw_elements(PrimitiveType type, const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader, GLint first, GLsizei count) {

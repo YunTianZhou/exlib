@@ -37,10 +37,13 @@ public:
     void set_layout(const VertexBuffer& buffer, const std::vector<Element>& layout);
 
     // Getters
-    inline const VertexBuffer* get_bound_buffer() const { return bound_buffer; } ;
+    GLsizei get_count() const;
+    inline GLsizei get_stride() const { return stride; }
+    inline const VertexBuffer* get_bound_buffer() const { return bound_buffer; }
 
 private:
     GLuint id;
+    GLsizei stride;
     const VertexBuffer* bound_buffer;
 };
 
