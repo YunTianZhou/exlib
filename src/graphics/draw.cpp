@@ -84,31 +84,35 @@ void Draw::init_texture_pipeline() {
         texture_vao = std::make_unique<gl::VertexArray>();
         texture_vao->set_layout(*texture_vbo, {
             {2, gl::Type::Float, false},  // position
-            {2, gl::Type::Float, false}   // texcoords
+            {2, gl::Type::Float, false},  // texcoord
+            {4, gl::Type::Float, false}   // color
         });
     }
     if (!texture_shader) {
         gl::Shader::ProgramSource src = {
-            // Vertex shader
             R"(
             #version 330 core
             layout(location = 0) in vec2 a_position;
             layout(location = 1) in vec2 a_texcoord;
+            layout(location = 2) in vec4 a_color;
             uniform mat4 u_transform;
             out vec2 v_texcoord;
+            out vec4 v_color;
             void main() {
                 gl_Position = u_transform * vec4(a_position, 0.0, 1.0);
                 v_texcoord = a_texcoord;
+                v_color    = a_color;
             }
             )",
-            // Fragment shader
             R"(
             #version 330 core
             in vec2 v_texcoord;
+            in vec4 v_color;
             uniform sampler2D u_texture;
             out vec4 fragColor;
             void main() {
-                fragColor = texture(u_texture, v_texcoord);
+                vec4 tex = texture(u_texture, v_texcoord);
+                fragColor = tex * v_color;
             }
             )"
         };
@@ -150,13 +154,17 @@ void Draw::draw_texture(const Vertex* start, int count, const State& state) {
     if (count <= 0) return;
 
     std::vector<GLfloat> data;
-    data.reserve(count * 4);
+    data.reserve(count * 8);
     Vec2f texture_size(state.texture->get_size());
     while (count--) {
         data.push_back(start->pos.x);
         data.push_back(start->pos.y);
         data.push_back(start->tex_coords.x / texture_size.x);
         data.push_back(start->tex_coords.y / texture_size.y);
+        data.push_back(start->color.r / 255.0f);
+        data.push_back(start->color.g / 255.0f);
+        data.push_back(start->color.b / 255.0f);
+        data.push_back(start->color.a / 255.0f);
         start++;
     }
     texture_vbo->set_data(data.data(), GLsizei(data.size() * sizeof(GLfloat)));

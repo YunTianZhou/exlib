@@ -15,14 +15,14 @@ struct EXLIB_API Vertex {
 	Color color;
 	Vec2f tex_coords;
 
-	Vertex() : pos(), color(Color::Transparent), tex_coords() {}
+	Vertex() : pos(), color(Color::White), tex_coords() {}
 
 	Vertex(const Vec2f& _pos, const Color& _color)
 		: pos(_pos), color(_color), tex_coords() {
 	}
 
 	Vertex(const Vec2f& _pos, const Vec2f& _tex_coords) 
-		: pos(_pos), color(Color::Transparent), tex_coords(_tex_coords) {
+		: pos(_pos), color(Color::White), tex_coords(_tex_coords) {
 	}
 };
 

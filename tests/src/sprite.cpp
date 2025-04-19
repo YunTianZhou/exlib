@@ -25,7 +25,6 @@ int main() {
     ex::Vec2f center = sprite.get_bounds().get_center();
     sprite.scale({ 0.1f, 0.1f });
     sprite.set_position(-center + (ex::Vec2f(window.get_size()) / 2.0f));
-    sprite.set_color(ex::Color::White);
     sprite.set_origin(center);
 
     // Display settings
