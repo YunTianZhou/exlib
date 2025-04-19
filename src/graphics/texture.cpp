@@ -8,7 +8,7 @@ namespace ex {
 
 Texture::Texture(const std::filesystem::path& path) {
     if (!load_from_file(path))
-        throw Exception("Failed to load texture from file");
+        EX_THROW("Failed to load texture from file: " + path.string());
 }
 
 Texture::Texture(Vec2i size, const unsigned char* buffer)
@@ -17,12 +17,12 @@ Texture::Texture(Vec2i size, const unsigned char* buffer)
 
 Texture::Texture(const void* data, int size) {
     if (!load_from_memory(data, size))
-        throw Exception("Failed to load texture from memory");
+        EX_THROW("Failed to load texture from memory (" + std::to_string(size)+" bytes)");
 }
 
 Texture::Texture(const Image& image) {
     if (!load_from_image(image))
-        throw Exception("Failed to load texture from Image object");
+        EX_THROW("Failed to load texture from Image object");
 }
 
 Texture::Texture(Texture&& other) noexcept
@@ -43,7 +43,10 @@ Texture Texture::copy() const {
 bool Texture::load_from_file(const std::filesystem::path& path) {
     int w, h, channels;
     unsigned char* data = stbi_load(path.string().c_str(), &w, &h, &channels, 4);
-    if (!data) return false;
+    if (!data) {
+        EX_ERROR("Failed to load image from file '" + path.string() + "'");
+        return false;
+    }
 
     tex = gl::Texture({ w, h }, data);
     stbi_image_free(data);
@@ -52,34 +55,38 @@ bool Texture::load_from_file(const std::filesystem::path& path) {
 
 bool Texture::load_from_memory(const void* data, int size) {
     int w, h, channels;
-    unsigned char* img = stbi_load_from_memory(
-        (const unsigned char*) (data),
+    unsigned char* image = stbi_load_from_memory(
+        (const stbi_uc*) (data),
         size,
         &w, &h, &channels,
         4
     );
 
-    if (!img) 
+    if (!image) {
+        EX_ERROR("Failed to load image from memory (" + std::to_string(size) + " bytes)");
         return false;
+    }
 
-    tex = gl::Texture({ w, h }, img);
-    stbi_image_free(img);
+    tex = gl::Texture({ w, h }, image);
+    stbi_image_free(image);
     return true;
 }
 
 bool Texture::load_from_image(const Image& image) {
+    if (image.get_size().x <= 0 || image.get_size().y <= 0 || !image.get_pixels()) {
+        EX_ERROR("Cannot load texture from a empty image");
+        return false;
+    }
+
     tex = gl::Texture(image.get_size(), image.get_pixels());
     return true;
 }
 
-void Texture::set_data(const unsigned char* buffer) {
-    Vec2i size = tex.get_size();
-    if (size.x == 0 || size.y == 0)
-        throw Exception("Cannot set_data on zero-sized texture");
+void Texture::set_data(Vec2i size, const unsigned char* buffer) {
     tex.set_data(size, buffer);
 }
 
-void Texture::update_sub(const Vec2i& offset, const Vec2i& sub_size, const unsigned char* data) {
+void Texture::update_sub(Vec2i offset, Vec2i sub_size, const unsigned char* data) {
     tex.update_sub(offset, sub_size, data);
 }
 

@@ -66,7 +66,7 @@ private:
 
 inline void Texture::bind(GLuint slot) const {
 	if (!id) {
-		throw Exception("Texture is not exist.");
+		EX_THROW("Texture not exist");
 	}
 	glActiveTexture(GL_TEXTURE0 + slot);
 	glBindTexture(GL_TEXTURE_2D, id);

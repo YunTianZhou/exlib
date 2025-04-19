@@ -12,7 +12,7 @@ Window::Window(Vec2i size, std::string _title)
     : window(nullptr), exist(false), title(std::move(_title)) {
 
     if (!glfwInit()) {
-        throw Exception("GLFW init failed.");
+        EX_THROW("GLFW init failed");
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -22,7 +22,7 @@ Window::Window(Vec2i size, std::string _title)
 
     if (!window) {
         glfwTerminate();
-        throw Exception("GLFW window creation failed.");
+        EX_THROW("GLFW window creation failed");
     }
 
     glfwMakeContextCurrent(window);
@@ -30,7 +30,7 @@ Window::Window(Vec2i size, std::string _title)
     if (glewInit() != GLEW_OK) {
         glfwDestroyWindow(window);
         glfwTerminate();
-        throw Exception("GLEW init failed.");
+        EX_THROW("GLEW init failed");
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -47,7 +47,8 @@ Window::~Window() {
 
 void Window::destroy() {
     if (!exist) {
-        throw Exception("Window not exist.");
+        EX_ERROR("Window is already destroyed");
+        return;
     }
 
     glfwSetWindowShouldClose(window, GL_TRUE);

@@ -45,7 +45,7 @@ inline T* UserPointer::get(const std::string& name) {
 
 inline void UserPointer::remove(const std::string& name) {
 	if (!find(name)) {
-		throw Exception("Unknown user pointer '" + name + "'");
+		EX_THROW("Unknown user pointer '" + name + "'");
 	}
 	pointers.erase(name);
 }

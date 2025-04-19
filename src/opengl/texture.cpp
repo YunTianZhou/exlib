@@ -5,6 +5,8 @@ namespace ex::gl {
 Texture::Texture()
 	: id(0), size() {
 	glGenTextures(1, &id);
+	if (id == 0)
+		EX_THROW("Failed to generate OpenGL texture ID");
 }
 
 Texture::Texture(Vec2i _size, const unsigned char* buffer)
@@ -40,7 +42,7 @@ Texture& Texture::operator=(Texture&& other) {
 
 Texture Texture::copy() const {
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 
 	Texture new_tex(size, nullptr);
 
@@ -70,7 +72,7 @@ void Texture::set_data(Vec2i _size, const unsigned char* buffer) {
 	size = _size;
 
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	set_default_parameters();
@@ -79,10 +81,10 @@ void Texture::set_data(Vec2i _size, const unsigned char* buffer) {
 
 void Texture::update_sub(const Vec2i& offset, const Vec2i& sub_size, const unsigned char* data) {
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 	if (offset.x + sub_size.x > size.x ||
 		offset.y + sub_size.y > size.y)
-		throw Exception("Sub-update region out of bounds.");
+		EX_THROW("Sub update region out of range");
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexSubImage2D(GL_TEXTURE_2D, 0, offset.x, offset.y, sub_size.x, sub_size.y, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -90,7 +92,7 @@ void Texture::update_sub(const Vec2i& offset, const Vec2i& sub_size, const unsig
 
 void Texture::set_filter(Filter min_filter, Filter mag_filter) {
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, (GLint) min_filter);
@@ -99,7 +101,7 @@ void Texture::set_filter(Filter min_filter, Filter mag_filter) {
 
 void Texture::set_wrap(Wrap wrap_s, Wrap wrap_t) {
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, (GLint) wrap_s);
@@ -108,7 +110,7 @@ void Texture::set_wrap(Wrap wrap_s, Wrap wrap_t) {
 
 void Texture::generate_mipmaps() {
 	if (id == 0)
-		throw Exception("Texture not exist.");
+		EX_THROW("Texture not exist");
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	glGenerateMipmap(GL_TEXTURE_2D);

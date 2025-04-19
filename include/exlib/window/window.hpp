@@ -133,7 +133,7 @@ inline Window& Window::create(Vec2i size, std::string _title) {
 
 inline Window& Window::get_instance() {
     if (!instance) {
-        throw Exception("Window instance has not been initialized.");
+        EX_THROW("Window instance has not been initialized");
     }
 
     return *instance;

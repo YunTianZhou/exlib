@@ -40,8 +40,8 @@ public:
     inline void unbind() const { tex.unbind(); };
 
     // Data Upload
-    void set_data(const unsigned char* buffer);
-    void update_sub(const Vec2i& offset, const Vec2i& sub_size, const unsigned char* data);
+    void set_data(Vec2i size, const unsigned char* buffer);
+    void update_sub(Vec2i offset, Vec2i sub_size, const unsigned char* data);
 
     // Parameters
     void set_filter(Filter min_filter, Filter mag_filter);

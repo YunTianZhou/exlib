@@ -20,12 +20,12 @@ Image::Image(Vec2i _size, const unsigned char* _pixels) {
 
 Image::Image(const std::filesystem::path& path) {
     if (!load_from_file(path))
-        throw Exception("Failed to load image from file.");
+        EX_THROW("Failed to load image from file '" + path.string() + "'");
 }
 
 Image::Image(const void* data, int _size) {
     if (!load_from_memory(data, _size))
-        throw Exception("Failed to load image from memory.");
+        EX_THROW("Failed to load image from memory");
 }
 
 Image::Image(Image&& other)
@@ -54,7 +54,10 @@ Image Image::copy() const {
 bool Image::load_from_file(const std::filesystem::path& path) {
     int w, h, channels;
     unsigned char* data = stbi_load(path.string().c_str(), &w, &h, &channels, 4);
-    if (!data) return false;
+    if (!data) {
+        EX_ERROR("Failed to load image from file '" + path.string() + "'");
+        return false;
+    }
 
     resize({ w, h }, data);
     stbi_image_free(data);
@@ -64,7 +67,10 @@ bool Image::load_from_file(const std::filesystem::path& path) {
 bool Image::load_from_memory(const void* data, int _size) {
     int w, h, channels;
     unsigned char* image = stbi_load_from_memory((const stbi_uc*) data, _size, &w, &h, &channels, 4);
-    if (!image) return false;
+    if (!image) {
+        EX_ERROR("Failed to load image from memory (" + std::to_string(_size) + " bytes)");
+        return false;
+    }
 
     resize({ w, h }, image);
     stbi_image_free(image);
@@ -89,6 +95,12 @@ bool Image::save_to_file(const std::filesystem::path& path) const {
         else if (extension == ".jpg" || extension == ".jpeg") {
             success = stbi_write_jpg(path.string().c_str(), size.x, size.y, 4, pixels.data(), 90);
         }
+        else {
+            EX_ERROR("Unsupported save format '" + extension.string() + "'");
+            return false;
+        }
+
+        EX_ERROR("Failed to save image to file '" + path.string() + "'");
 
         return success;
     }
@@ -122,6 +134,12 @@ std::optional<std::vector<unsigned char>> Image::save_to_memory(const std::strin
         else if (fmt == "jpg" || fmt == "jpeg") {
             success = stbi_write_jpg_to_func(write_to_vector, &buffer, size.x, size.y, 4, pixels.data(), 90);
         }
+        else {
+            EX_ERROR("Unsupported save format '" + fmt + "'");
+            return std::nullopt;
+        }
+
+        EX_ERROR("Failed to save image to memory");
 
         if (success)
             return buffer;
@@ -131,8 +149,16 @@ std::optional<std::vector<unsigned char>> Image::save_to_memory(const std::strin
 }
 
 Color Image::get_pixel(Vec2i pos) const {
-    if (pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y)
-        throw Exception("Pixel position out of the bounds of the image.");
+    if (pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y) {
+        EX_THROW(
+            "Pixel position (" +
+            std::to_string(pos.x) + "," +
+            std::to_string(pos.y) +
+            ") out of bounds for image size (" +
+            std::to_string(size.x) + "," +
+            std::to_string(size.y) + ")"
+        );
+    }
 
     int index = (pos.y * size.x + pos.x) * 4;
     const unsigned char* ptr = &pixels[index];
@@ -144,15 +170,23 @@ Vec2i Image::get_size() const {
 }
 
 const unsigned char* Image::get_pixels() const {
-    if (pixels.empty()) 
-        throw Exception("Image is empty.");
+    if (pixels.empty())
+        EX_THROW("Image pixel data is empty");
 
     return pixels.data();
 }
 
 void Image::set_pixel(Vec2i pos, Color color) {
-    if (pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y)
-        throw Exception("Pixel position out of the bounds of the image.");
+    if (pos.x < 0 || pos.x >= size.x || pos.y < 0 || pos.y >= size.y) {
+        EX_THROW(
+            "Pixel position (" +
+            std::to_string(pos.x) + "," +
+            std::to_string(pos.y) +
+            ") out of bounds for image size (" +
+            std::to_string(size.x) + "," +
+            std::to_string(size.y) + ")"
+        );
+    }
 
     int index = (pos.y * size.x + pos.x) * 4;
     unsigned char* ptr = &pixels[index];

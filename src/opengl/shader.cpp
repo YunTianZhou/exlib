@@ -11,7 +11,7 @@ Shader::ProgramSource Shader::ProgramSource::ReadFromFile(const std::string& fil
     std::ifstream file(filepath);
 
 	if (!file.is_open()) {
-		throw Exception("Failed to open the shader source file: " + filepath);
+		EX_THROW("Failed to open the shader source file: " + filepath);
 	}
 
 	enum class ShaderType : int {
@@ -31,11 +31,15 @@ Shader::ProgramSource Shader::ProgramSource::ReadFromFile(const std::string& fil
 			else if (line.find("fragment") != std::string::npos)
 				type = ShaderType::Fragment;
 			else
-				throw Exception("Invalid shader type: " + line);
+				EX_ERROR("Invalid shader type in file: " + line);
 		}
 		else if (type != ShaderType::None) {
 			ss[(int) type] << line << std::endl;
 		}
+	}
+
+	if (ss[0].str().empty() || ss[1].str().empty()) {
+		EX_ERROR("Missing vertex or fragment shader source in: " + filepath);
 	}
 
 	file.close();
@@ -49,7 +53,7 @@ Shader::ProgramSource Shader::ProgramSource::ReadFromFile(const std::string& ver
 
 	// Vertex shader
 	if (!file.is_open()) {
-		throw Exception("Failed to open the vertex shader source file: " + vertex);
+		EX_THROW("Failed to open the vertex shader source file: " + vertex);
 	}
 
 	std::stringstream vertex_ss;
@@ -66,7 +70,7 @@ Shader::ProgramSource Shader::ProgramSource::ReadFromFile(const std::string& ver
 	std::stringstream fragment_ss;
 
 	if (!file.is_open()) {
-		throw Exception("Failed to open the fragment shader source file: " + fragment);
+		EX_THROW("Failed to open the fragment shader source file: " + fragment);
 	}
 
 	while (file >> line) {
@@ -74,6 +78,10 @@ Shader::ProgramSource Shader::ProgramSource::ReadFromFile(const std::string& ver
 	}
 
 	file.close();
+
+	if (vertex_ss.str().empty() || fragment_ss.str().empty()) {
+		EX_ERROR("Vertex or fragment shader file is empty");
+	}
 
 	return { vertex_ss.str(), fragment_ss.str() };
 }
@@ -111,11 +119,29 @@ Shader& Shader::operator=(Shader&& other) {
 
 GLuint Shader::create_shader(const ProgramSource& source) const {
 	GLuint program = glCreateProgram();
+	if (!program) {
+		EX_THROW("Failed to create OpenGL shader program");
+	}
+
 	GLuint vs = compile_shader(GL_VERTEX_SHADER, source.vertex);
 	GLuint fs = compile_shader(GL_FRAGMENT_SHADER, source.fragment);
 	glAttachShader(program, vs);
 	glAttachShader(program, fs);
 	glLinkProgram(program);
+
+	GLint linked;
+	glGetProgramiv(program, GL_LINK_STATUS, &linked);
+	if (linked == GL_FALSE) {
+		GLint length;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+		std::string info(length, '\0');
+		glGetProgramInfoLog(program, length, nullptr, &info[0]);
+		glDeleteShader(vs);
+		glDeleteShader(fs);
+		glDeleteProgram(program);
+		EX_THROW("Failed to link shader program. Info: " + info);
+	}
+
 	glValidateProgram(program);
 	glDeleteShader(vs);
 	glDeleteShader(fs);
@@ -124,6 +150,10 @@ GLuint Shader::create_shader(const ProgramSource& source) const {
 
 GLuint Shader::compile_shader(GLenum type, const std::string& source) const {
 	GLuint shader = glCreateShader(type);
+	if (!shader) {
+		EX_THROW("Failed to create shader object");
+	}
+
 	const char* src = source.c_str();
 	glShaderSource(shader, 1, &src, nullptr);
 	glCompileShader(shader);
@@ -138,11 +168,9 @@ GLuint Shader::compile_shader(GLenum type, const std::string& source) const {
 		if (length > 0) {
 			std::string buffer(length, '\0');
 			glGetShaderInfoLog(shader, length, &length, &buffer[0]);
-			throw Exception(
-				"Failed to compile " +
-				std::string(type == GL_VERTEX_SHADER ? "vertex" : "fragment") +
-				" shader, message: " + buffer
-			);
+			EX_THROW("Failed to compile " +
+					 std::string(type == GL_VERTEX_SHADER ? "vertex" : "fragment") +
+					 " shader. Info: " + buffer);
 		}
 	}
 

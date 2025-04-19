@@ -64,7 +64,7 @@ inline GLuint get_size_of_type(Type type) {
     case Type::Int_2_10_10_10_REV:          return 4;
     case Type::UnsignedInt_2_10_10_10_REV:  return 4;
     case Type::UnsignedInt_10F_11F_11F_REV: return 4;
-    default:                                throw Exception("Invalid type");
+    default:                                EX_THROW("Invalid type: " + std::to_string((GLenum) type));
     }
 }
 

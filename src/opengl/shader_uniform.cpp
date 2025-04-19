@@ -16,7 +16,8 @@ GLuint Shader::get_uniform_location(const std::string& name) {
 
     GLint location = glGetUniformLocation(id, name.c_str());
     if (location == -1) {
-        throw Exception("Uniform '" + name + "' not found or invalid.");
+        EX_ERROR("Uniform '" + name + "' not found or invalid");
+        return -1;
     }
 
     uniform_locations[name] = location;
@@ -41,7 +42,7 @@ void Shader::set_uniform_vec1(const std::string& name, const T& v0) {
         glUniform1ui(location, v0);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec1.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -63,7 +64,7 @@ void Shader::set_uniform_vec2(const std::string& name, const T& v0, const T& v1)
         glUniform2ui(location, v0, v1);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec2.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -85,7 +86,7 @@ void Shader::set_uniform_vec3(const std::string& name, const T& v0, const T& v1,
         glUniform3ui(location, v0, v1, v2);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec3.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -107,7 +108,7 @@ void Shader::set_uniform_vec4(const std::string& name, const T& v0, const T& v1,
         glUniform4ui(location, v0, v1, v2, v3);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec4.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -129,7 +130,7 @@ void Shader::set_uniform_vec1_array(const std::string& name, GLsizei count, cons
         glUniform1uiv(location, count, value);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec1_array.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -151,7 +152,7 @@ void Shader::set_uniform_vec2_array(const std::string& name, GLsizei count, cons
         glUniform2uiv(location, count, value);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec2_array.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -173,7 +174,7 @@ void Shader::set_uniform_vec3_array(const std::string& name, GLsizei count, cons
         glUniform3uiv(location, count, value);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec3_array.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -195,7 +196,7 @@ void Shader::set_uniform_vec4_array(const std::string& name, GLsizei count, cons
         glUniform4uiv(location, count, value);
     }
     else {
-        throw Exception("Unsupported type for set_uniform_vec4_array.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -235,7 +236,7 @@ void Shader::set_uniform_matrix(const std::string& name, const T& matrix) {
         glUniformMatrix4x3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     }
     else {
-        throw Exception("Unsupported type for set_uniform_matrix.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 
@@ -275,7 +276,7 @@ void Shader::set_uniform_matrix_array(const std::string& name, GLsizei count, co
         glUniformMatrix4x3fv(location, count, GL_FALSE, glm::value_ptr(matrices[0]));
     }
     else {
-        throw Exception("Unsupported type for set_uniform_matrix_array.");
+        EX_THROW("Unsupported type: " + std::string(typeid(T).name()));
     }
 }
 

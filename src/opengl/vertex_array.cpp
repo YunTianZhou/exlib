@@ -33,6 +33,11 @@ VertexArray& VertexArray::operator=(VertexArray&& other) {
 }
 
 void VertexArray::set_layout(const VertexBuffer& buffer, const std::vector<Element>& layout) {
+    if (layout.empty()) {
+        EX_ERROR("Layout is empty, cannot set vertex attributes.");
+        return;
+    }
+    
     bind();
     buffer.bind();
 
@@ -61,10 +66,10 @@ void VertexArray::set_layout(const VertexBuffer& buffer, const std::vector<Eleme
 
 GLsizei VertexArray::get_count() const {
     if (!bound_buffer)
-        throw Exception("No buffer bound.");
+        EX_THROW("No buffer bound.");
 
     if (stride == 0)
-        throw Exception("Stride is zero, cannot compute count.");
+        EX_THROW("Stride is zero, cannot compute count.");
 
     return (GLsizei) (bound_buffer->get_size() / stride);
 }

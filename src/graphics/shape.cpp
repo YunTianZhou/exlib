@@ -69,7 +69,8 @@ Vec2f Shape::get_geometric_center() const {
 
 	switch (count) {
 	case 0:
-		throw Exception("Cannot get geometric center of empty shape.");
+		EX_ERROR("Cannot get geometric center of empty shape");
+		return { 0.0f, 0.0f };
 	case 1:
 		return get_point(0);
 	case 2:

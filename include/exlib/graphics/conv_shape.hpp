@@ -18,7 +18,7 @@ public:
 
     inline void set_point(int i, Vec2f pos) {
         if (i >= get_point_count())
-            throw Exception("Point index out of range.");
+            EX_THROW("Point index out of range: " + std::to_string(i));
 
         points[i] = pos; 
         update(); 
@@ -29,7 +29,7 @@ public:
 
     inline Vec2f get_point(int i) const override {
         if (i >= get_point_count())
-            throw Exception("Point index out of range.");
+            EX_THROW("Point index out of range: " + std::to_string(i));
 
         return points[i];
     }
