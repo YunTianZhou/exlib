@@ -4,7 +4,7 @@
 
 namespace ex {
 
-class EXLIB_API ConvShape : public Shape {
+class ConvShape : public Shape {
 public:
     explicit ConvShape(int point_count = 0) { set_point_count(point_count); }
 

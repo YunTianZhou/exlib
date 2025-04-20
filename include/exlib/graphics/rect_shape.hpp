@@ -4,7 +4,7 @@
 
 namespace ex {
 
-class EXLIB_API RectShape : public Shape {
+class RectShape : public Shape {
 public:
     RectShape(Vec2f _size = Vec2f{}) { set_size(_size); }
 
@@ -14,10 +14,10 @@ public:
     inline void set_size(Vec2f _size) { size = _size; update(); }
 
     // Getters
-    inline Vec2f get_size() const { return size; };
+    inline Vec2f get_size() const { return size; }
 
     // Implemenatations
-    inline int get_point_count() const override { return 4; };
+    inline int get_point_count() const override { return 4; }
 
     inline Vec2f get_point(int i) const override {
         switch (i) {

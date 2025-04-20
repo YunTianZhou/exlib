@@ -6,7 +6,7 @@
 
 namespace ex {
 
-class EXLIB_API CircleShape : public Shape {
+class CircleShape : public Shape {
 public:
     explicit CircleShape(float _radius, int _point_count = 30)
         : radius(_radius), point_count(_point_count) {
@@ -22,10 +22,10 @@ public:
     inline float get_radius() const { return radius; }
 
     // Implemenatations
-    inline int get_point_count() const override { return point_count; };
+    inline int get_point_count() const override { return point_count; }
 
     inline Vec2f get_point(int i) const override {
-        constexpr float PI = 3.14159;
+        constexpr float PI = 3.14159f;
 
         float angle = i * 2.0f * PI / point_count - PI / 2.0f;
         float x = std::cos(angle) * radius;

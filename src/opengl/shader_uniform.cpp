@@ -284,46 +284,46 @@ void Shader::set_uniform_matrix_array(const std::string& name, GLsizei count, co
 // EXPLICIT TEMPLATE INSTANTIATION
 // ============================
 
-template void Shader::set_uniform_vec1<GLint>(const std::string&, const GLint&);
-template void Shader::set_uniform_vec1<GLfloat>(const std::string&, const GLfloat&);
-template void Shader::set_uniform_vec1<GLuint>(const std::string&, const GLuint&);
+template void EXLIB_API Shader::set_uniform_vec1<GLint>(const std::string&, const GLint&);
+template void EXLIB_API Shader::set_uniform_vec1<GLfloat>(const std::string&, const GLfloat&);
+template void EXLIB_API Shader::set_uniform_vec1<GLuint>(const std::string&, const GLuint&);
 
-template void Shader::set_uniform_vec2<GLint>(const std::string&, const GLint&, const GLint&);
-template void Shader::set_uniform_vec2<GLfloat>(const std::string&, const GLfloat&, const GLfloat&);
-template void Shader::set_uniform_vec2<GLuint>(const std::string&, const GLuint&, const GLuint&);
+template void EXLIB_API Shader::set_uniform_vec2<GLint>(const std::string&, const GLint&, const GLint&);
+template void EXLIB_API Shader::set_uniform_vec2<GLfloat>(const std::string&, const GLfloat&, const GLfloat&);
+template void EXLIB_API Shader::set_uniform_vec2<GLuint>(const std::string&, const GLuint&, const GLuint&);
 
-template void Shader::set_uniform_vec3<GLint>(const std::string&, const GLint&, const GLint&, const GLint&);
-template void Shader::set_uniform_vec3<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&);
-template void Shader::set_uniform_vec3<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&);
+template void EXLIB_API Shader::set_uniform_vec3<GLint>(const std::string&, const GLint&, const GLint&, const GLint&);
+template void EXLIB_API Shader::set_uniform_vec3<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&);
+template void EXLIB_API Shader::set_uniform_vec3<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&);
 
-template void Shader::set_uniform_vec4<GLint>(const std::string&, const GLint&, const GLint&, const GLint&, const GLint&);
-template void Shader::set_uniform_vec4<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&, const GLfloat&);
-template void Shader::set_uniform_vec4<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&, const GLuint&);
+template void EXLIB_API Shader::set_uniform_vec4<GLint>(const std::string&, const GLint&, const GLint&, const GLint&, const GLint&);
+template void EXLIB_API Shader::set_uniform_vec4<GLfloat>(const std::string&, const GLfloat&, const GLfloat&, const GLfloat&, const GLfloat&);
+template void EXLIB_API Shader::set_uniform_vec4<GLuint>(const std::string&, const GLuint&, const GLuint&, const GLuint&, const GLuint&);
 
-template void Shader::set_uniform_vec1_array<GLint>(const std::string&, GLsizei, const GLint*);
-template void Shader::set_uniform_vec1_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
-template void Shader::set_uniform_vec1_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+template void EXLIB_API Shader::set_uniform_vec1_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void EXLIB_API Shader::set_uniform_vec1_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void EXLIB_API Shader::set_uniform_vec1_array<GLuint>(const std::string&, GLsizei, const GLuint*);
 
-template void Shader::set_uniform_vec2_array<GLint>(const std::string&, GLsizei, const GLint*);
-template void Shader::set_uniform_vec2_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
-template void Shader::set_uniform_vec2_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+template void EXLIB_API Shader::set_uniform_vec2_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void EXLIB_API Shader::set_uniform_vec2_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void EXLIB_API Shader::set_uniform_vec2_array<GLuint>(const std::string&, GLsizei, const GLuint*);
 
-template void Shader::set_uniform_vec3_array<GLint>(const std::string&, GLsizei, const GLint*);
-template void Shader::set_uniform_vec3_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
-template void Shader::set_uniform_vec3_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+template void EXLIB_API Shader::set_uniform_vec3_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void EXLIB_API Shader::set_uniform_vec3_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void EXLIB_API Shader::set_uniform_vec3_array<GLuint>(const std::string&, GLsizei, const GLuint*);
 
-template void Shader::set_uniform_vec4_array<GLint>(const std::string&, GLsizei, const GLint*);
-template void Shader::set_uniform_vec4_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
-template void Shader::set_uniform_vec4_array<GLuint>(const std::string&, GLsizei, const GLuint*);
+template void EXLIB_API Shader::set_uniform_vec4_array<GLint>(const std::string&, GLsizei, const GLint*);
+template void EXLIB_API Shader::set_uniform_vec4_array<GLfloat>(const std::string&, GLsizei, const GLfloat*);
+template void EXLIB_API Shader::set_uniform_vec4_array<GLuint>(const std::string&, GLsizei, const GLuint*);
 
-template void Shader::set_uniform_matrix<glm::mat2>(const std::string&, const glm::mat2&);
-template void Shader::set_uniform_matrix<glm::mat3>(const std::string&, const glm::mat3&);
-template void Shader::set_uniform_matrix<glm::mat4>(const std::string&, const glm::mat4&);
-template void Shader::set_uniform_matrix<glm::mat2x3>(const std::string&, const glm::mat2x3&);
-template void Shader::set_uniform_matrix<glm::mat3x2>(const std::string&, const glm::mat3x2&);
-template void Shader::set_uniform_matrix<glm::mat2x4>(const std::string&, const glm::mat2x4&);
-template void Shader::set_uniform_matrix<glm::mat4x2>(const std::string&, const glm::mat4x2&);
-template void Shader::set_uniform_matrix<glm::mat3x4>(const std::string&, const glm::mat3x4&);
-template void Shader::set_uniform_matrix<glm::mat4x3>(const std::string&, const glm::mat4x3&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat2>(const std::string&, const glm::mat2&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat3>(const std::string&, const glm::mat3&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat4>(const std::string&, const glm::mat4&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat2x3>(const std::string&, const glm::mat2x3&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat3x2>(const std::string&, const glm::mat3x2&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat2x4>(const std::string&, const glm::mat2x4&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat4x2>(const std::string&, const glm::mat4x2&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat3x4>(const std::string&, const glm::mat3x4&);
+template void EXLIB_API Shader::set_uniform_matrix<glm::mat4x3>(const std::string&, const glm::mat4x3&);
 
 }
