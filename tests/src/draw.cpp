@@ -28,11 +28,11 @@ int main() {
         constexpr float PI = 3.1415927f;
         float angle = i * 2.0f * PI / 6.0f; // 360 degrees / 6 sides
         ex::Vec2f vertex = {
-            center.x + radius * cos(angle),
-            center.y + radius * sin(angle)
+            center.x + radius * std::cos(angle),
+            center.y + radius * std::sin(angle)
         };
         // Use a color that varies depending on the vertex position (for a colorful effect)
-        ex::Color color = { (uint8_t) (255 * cos(angle)), (uint8_t) (255 * sin(angle)), 128, 255 };
+        ex::Color color = { (uint8_t) (255 * std::cos(angle)), (uint8_t) (255 * sin(angle)), 128, 255 };
         vertices.push_back(ex::Vertex(vertex, color));
     }
     vertices.push_back(vertices[1]);

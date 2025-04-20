@@ -1,5 +1,3 @@
-#include <GL/glew.h>
-
 #include "exlib/window/window.hpp"
 
 namespace ex {
@@ -27,11 +25,9 @@ Window::Window(Vec2i size, std::string _title)
 
     glfwMakeContextCurrent(window);
 
-    if (glewInit() != GLEW_OK) {
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        EX_THROW("GLEW init failed");
-    }
+    GLenum err = glewInit();
+    if (err != GLEW_OK)
+        EX_THROW("GLEW init failed: " + std::string((const char*) (glewGetErrorString(err))));
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);

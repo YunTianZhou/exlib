@@ -29,7 +29,7 @@ For more examples, go to `exlib/tests`, which contains examples for all function
 ### Clone the Library
 
 ```bash
-git clone https://github.com/YunTianZhou/exlib.git
+git clone --recurse-submodules https://github.com/YunTianZhou/exlib.git
 cd exlib
 ```
 
