@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.5)
 project(exlib_tests)
 
 set(CMAKE_CXX_STANDARD 17)
