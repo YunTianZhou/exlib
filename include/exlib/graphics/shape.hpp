@@ -27,7 +27,7 @@ public:
 
     // Getters
     inline const Texture* get_texture() const { return texture; }
-    inline IntRect gett_texture_rect() const { return texture_rect; }
+    inline IntRect get_texture_rect() const { return texture_rect; }
     inline Color get_fill_color() const { return fill_color; }
     inline Color get_outline_color() const { return outline_color; }
     inline float get_outline_thickness() const { return outline_thickness; }

@@ -1,23 +1,23 @@
 
 # exlib
 
-**exlib** is a lightweight, modern C++ graphics library C++ graphics library built on top of OpenGL. It provides utilities for window management, event handling, graphics, and OpenGL interfaces.
+**exlib** is a lightweight, modern C++ graphics library built on top of OpenGL. It provides utilities for window management, event handling, graphics, and OpenGL interfaces.
 
 ## Features
 
-- Easy creation and control of the window
+- Easy creation and control of windows
 
-- Input event managing (like key presses and mouse movements)
+- Input event management (e.g., key presses and mouse movements)
 
-- Provides basic graphic interfaces
+- Basic graphics interfaces
 
-- Support texture rendering
+- Texture rendering support
 
 - Cross-platform compatibility (Windows & Linux)
 
 ## Examples
 
-For more examples, go to `exlib/tests`, which contains examples for all functions in this project.
+For more examples, see the `exlib/tests` directory, which contains usage examples for all functions in this project.
 
 ## Getting Started
 
@@ -36,8 +36,8 @@ cd exlib
 ## Build
 
 Run the following commands based on your system:
-- If you want to build the library, go to directory `exlib/`.
-- If you want to build the examples, go to directory `exlib/tests/`.
+- To build the library, go to the `exlib` directory.
+- To build the examples, go to the `exlib/tests` directory.
 
 ### Windows
 
@@ -54,11 +54,11 @@ chmod +x build.sh
 ./build.sh
 ```
 
-The compiled binaries will be generate in `./build/`.
+The compiled binaries will be generated in `./build`.
 
 ## Usage
 
-Here's a simple template of how to setup an `exlib` project:
+Here's a simple template for setting up an `exlib` project:
 
 ```cpp
 #include <exlib/exlib.hpp>
@@ -92,4 +92,4 @@ This project utilizes the following open-source libraries:
 - [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
 - [STB](https://github.com/nothings/stb) - Image import and export
 
-This project references to the design of `Graphics` in [SFML](https://github.com/SFML/SFML).
+This project is inspired by the design of the `Graphics` module in [SFML](https://github.com/SFML/SFML).
