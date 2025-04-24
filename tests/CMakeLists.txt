@@ -1,24 +1,14 @@
-cmake_minimum_required(VERSION 3.5)
-project(exlib_tests)
+file(GLOB TESTS_SRC_FILES "src/*.cpp")
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(IMG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/img")
 
-file(GLOB SRC_FILES src/*.cpp)
+add_definitions(-DIMG_DIR=\"${IMG_DIR}/\")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/tests)
-set(IMG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/img)
+link_libraries(exlib_static)
 
-set(EXLIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
-add_subdirectory(${EXLIB_DIR} ${CMAKE_BINARY_DIR}/exlib)
-include_directories(${EXLIB_DIR}/include)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
 
-foreach(TEST_SOURCE ${SRC_FILES})
+foreach(TEST_SOURCE ${TESTS_SRC_FILES})
     get_filename_component(TEST_NAME ${TEST_SOURCE} NAME_WE)
-    
     add_executable(${TEST_NAME} ${TEST_SOURCE})
-    
-    target_compile_definitions(${TEST_NAME} PUBLIC IMG_DIR=\"${IMG_DIR}/\")
-
-    target_link_libraries(${TEST_NAME} exlib_static)
 endforeach()

@@ -5,15 +5,16 @@
 
 ## Features
 
-- Easy creation and control of windows
-
-- Input event management (e.g., key presses and mouse movements)
-
-- Basic graphics interfaces
-
-- Texture rendering support
-
-- Cross-platform compatibility (Windows & Linux)
+-   Easy creation and control of windows
+    
+-   Input event management (e.g., key presses and mouse movements)
+    
+-   Basic graphics interfaces
+    
+-   Texture rendering support
+    
+-   Cross-platform compatibility (Windows & Linux)
+    
 
 ## Examples
 
@@ -23,8 +24,10 @@ For more examples, see the `exlib/tests` directory, which contains usage example
 
 ### Prerequisites
 
-- A C++17 compatible compiler (e.g., GCC, Clang, MSVC)
-- CMake 3.5 or higher
+-   A C++17 compatible compiler (e.g., GCC, Clang, MSVC)
+    
+-   CMake 3.5 or higher
+    
 
 ### Clone the Library
 
@@ -35,26 +38,67 @@ cd exlib
 
 ## Build
 
-Run the following commands based on your system:
-- To build the library, go to the `exlib` directory.
-- To build the examples, go to the `exlib/tests` directory.
+You can build the project using either standard CMake commands or a convenient wrapper script.
 
-### Windows
+### Option 1: Manual CMake Invocation
 
-```bash
-cd scripts
-build.bat
-```
-
-### Linux
+#### 1. Configure the build
 
 ```bash
-cd scripts
-chmod +x build.sh
-./build.sh
+cmake -B build -S . \
+  -DBUILD_TESTS=<ON|OFF> \
+  -DBUILD_STATIC=<ON|OFF> \
+  -DBUILD_SHARED=<ON|OFF>
 ```
 
-The compiled binaries will be generated in `./build`.
+-   `BUILD_TESTS` (default: OFF) — whether to build the test suite
+    
+-   `BUILD_STATIC` (default: ON) — whether to build the static library
+    
+-   `BUILD_SHARED` (default: ON) — whether to build the shared library
+    
+
+You can change the options or CMake configs according to your needs.
+
+#### 2. Build the project
+
+```bash
+cmake --build build --config <Release|Debug>
+```
+
+### Option 2: Use the Wrapper Script
+
+A script is provided to simplify the build process. Just run:
+
+```bash
+scripts/build.sh [options]
+```
+
+It will generate a build directory at the project root (`exlib/build`), including the generated binaries.
+
+#### Script options
+
+```
+  -c, --config      Release|Debug       (default: Release)
+  -t, --tests       ON|OFF              (default: ON)
+  -g, --generator   <name>              e.g. "Ninja", "Unix Makefiles"
+  -a, --arch        <arch>              e.g. x64 (for multi-config generators)
+  -h, --help                            Show this help message
+```
+
+#### Example usage
+
+This sets up a Debug build, disables tests, and uses Ninja to build:
+
+```bash
+scripts/build.sh --config Debug --tests OFF --generator "Ninja"
+```
+
+To use the default settings: Release build, tests ON, and the default generator (e.g., Unix Makefiles or Ninja if available):
+
+```bash
+scripts/build.sh
+```
 
 ## Usage
 
@@ -87,9 +131,13 @@ int main() {
 
 This project utilizes the following open-source libraries:
 
-- [GLFW](https://github.com/glfw/glfw) - Multi-platform library for OpenGL
-- [GLEW](https://github.com/nigels-com/glew) - The OpenGL Extension Wrangler Library
-- [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
-- [STB](https://github.com/nothings/stb) - Image import and export
+-   [GLFW](https://github.com/glfw/glfw) - Multi-platform library for OpenGL
+    
+-   [GLEW](https://github.com/nigels-com/glew) - The OpenGL Extension Wrangler Library
+    
+-   [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
+    
+-   [STB](https://github.com/nothings/stb) - Image import and export
+    
 
 This project is inspired by the design of the `Graphics` module in [SFML](https://github.com/SFML/SFML).
