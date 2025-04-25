@@ -36,7 +36,6 @@ done
 cd "$(dirname "$0")/.."
 
 # prepare build dir
-rm -rf build
 mkdir -p build
 cd build
 

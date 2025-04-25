@@ -1,5 +1,6 @@
 #include "exlib/window/cursor.hpp"
 #include "exlib/window/window.hpp"
+#include "exlib/core/user_pointer.hpp"
 
 namespace ex {
 

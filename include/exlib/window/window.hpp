@@ -2,24 +2,23 @@
 
 #include <memory>
 #include <string>
-#include <functional>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "exlib/graphics/image.hpp"
-#include "exlib/core/user_pointer.hpp"
 #include "exlib/core/types.hpp"
 
 namespace ex {
+
+class Image;
 
 class EXLIB_API Window {
 public:
     friend class Cursor;
     friend class Key;
 
-    inline static Window& create(Vec2i size, std::string _title);
-    inline static Window& get_instance();
+    static Window& create(Vec2i size, std::string _title);
+    static Window& get_instance();
 
     Window(Window const&) = delete;
     void operator=(Window const&) = delete;
@@ -32,9 +31,9 @@ public:
     inline int is_open() const { return glfwWindowShouldClose(window) == GL_FALSE; }
     inline std::string get_title() const { return title; }
 
-    inline Vec2i get_size() const;
-    inline Vec2i get_framebuffer_size() const;
-    inline Vec2i get_position() const;
+    Vec2i get_size() const;
+    Vec2i get_framebuffer_size() const;
+    Vec2i get_position() const;
     inline bool is_iconified() const { return glfwGetWindowAttrib(window, GLFW_ICONIFIED); }
     inline bool is_maximized() const { return glfwGetWindowAttrib(window, GLFW_MAXIMIZED); }
     inline bool is_visible() const { return glfwGetWindowAttrib(window, GLFW_VISIBLE); }
@@ -47,10 +46,10 @@ public:
     inline void set_size_limit(Vec2i min, Vec2i max) const { glfwSetWindowSizeLimits(window, min.x, min.y, max.x, max.y); }
     inline void disable_size_limit() const { glfwSetWindowSizeLimits(window, -1, -1, -1, -1); }
 
-    inline void set_title(std::string _title);
-    inline void set_icon(const Image& image) const;
-    inline void set_icon(Vec2i size, const unsigned char* pixels) const;
-    inline void set_default_icon() const;
+    void set_title(std::string _title);
+    void set_icon(const Image& image) const;
+    void set_icon(Vec2i size, const unsigned char* pixels) const;
+    void set_default_icon() const;
 
     inline void set_aspect_ratio(int numer, int denom) const { glfwSetWindowAspectRatio(window, numer, denom); }
     inline void disable_aspect_ratio() const { glfwSetWindowAspectRatio(window, -1, -1); }
@@ -72,10 +71,10 @@ public:
     inline void poll_events() const { glfwPollEvents(); }
     inline void wait_events() const { glfwWaitEvents(); }
     inline void wait_events(double timeout) const { glfwWaitEventsTimeout(timeout); }
-        
+
     // Clear / Display
-    inline void clear(Color color = Color::Black) const;
-    inline void display() const;
+    void clear(Color color = Color::Black) const;
+    void display() const;
 
 public:
     /** Callbacks **/
@@ -122,75 +121,5 @@ private:
     std::string title;
     bool exist;
 };
-
-inline Window& Window::create(Vec2i size, std::string _title) {
-    if (!instance) {
-        instance.reset(new Window(size, std::move(_title)));
-    }
-
-    return *instance;
-}
-
-inline Window& Window::get_instance() {
-    if (!instance) {
-        EX_THROW("Window instance has not been initialized");
-    }
-
-    return *instance;
-}
-
-inline Vec2i Window::get_size() const {
-    Vec2i size;
-    glfwGetWindowSize(window, &size.x, &size.y);
-    return size;
-}
-
-inline Vec2i Window::get_framebuffer_size() const {
-    Vec2i size;
-    glfwGetFramebufferSize(window, &size.x, &size.y);
-    return size;
-}
-
-inline Vec2i Window::get_position() const {
-    Vec2i position;
-    glfwGetWindowPos(window, &position.x, &position.y);
-    return position;
-}
-
-inline void Window::set_title(std::string _title) {
-    glfwSetWindowTitle(window, _title.c_str());
-    title = std::move(_title);
-}
-
-inline void Window::set_icon(const Image& image) const {
-    set_icon(image.get_size(), image.get_pixels());
-}
-
-inline void Window::set_icon(Vec2i size, const unsigned char* pixels) const {
-    GLFWimage images[1];
-    images[0].width = size.x;
-    images[0].height = size.y;
-    images[0].pixels = const_cast<unsigned char*>(pixels);
-    glfwSetWindowIcon(window, 1, images);
-}
-
-inline void Window::set_default_icon() const {
-    glfwSetWindowIcon(window, 1, nullptr);
-}
-
-inline void ex::Window::clear(Color color) const {
-    glClearColor(color.r / 255.0f,
-                 color.g / 255.0f,
-                 color.b / 255.0f,
-                 color.a / 255.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-inline void Window::display() const {
-    Vec2i framebuffer_size = get_framebuffer_size();
-    glViewport(0, 0, framebuffer_size.x, framebuffer_size.y);
-
-    glfwSwapBuffers(window);
-}
 
 }

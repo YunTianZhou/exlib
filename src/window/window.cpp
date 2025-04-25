@@ -1,4 +1,6 @@
 #include "exlib/window/window.hpp"
+#include "exlib/graphics/image.hpp"
+#include "exlib/core/user_pointer.hpp"
 
 namespace ex {
 
@@ -26,8 +28,9 @@ Window::Window(Vec2i size, std::string _title)
     glfwMakeContextCurrent(window);
 
     GLenum err = glewInit();
-    if (err != GLEW_OK)
-        EX_THROW("GLEW init failed: " + std::string((const char*) (glewGetErrorString(err))));
+    if (err != GLEW_OK) {
+        EX_THROW("GLEW init failed: " + std::string((const char*)(glewGetErrorString(err))));
+    }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -50,6 +53,76 @@ void Window::destroy() {
     glfwSetWindowShouldClose(window, GL_TRUE);
     glfwDestroyWindow(window);
     exist = false;
+}
+
+Window& Window::create(Vec2i size, std::string _title) {
+    if (!instance) {
+        instance.reset(new Window(size, std::move(_title)));
+    }
+
+    return *instance;
+}
+
+Window& Window::get_instance() {
+    if (!instance) {
+        EX_THROW("Window instance has not been initialized");
+    }
+
+    return *instance;
+}
+
+Vec2i Window::get_size() const {
+    Vec2i size;
+    glfwGetWindowSize(window, &size.x, &size.y);
+    return size;
+}
+
+Vec2i Window::get_framebuffer_size() const {
+    Vec2i size;
+    glfwGetFramebufferSize(window, &size.x, &size.y);
+    return size;
+}
+
+Vec2i Window::get_position() const {
+    Vec2i position;
+    glfwGetWindowPos(window, &position.x, &position.y);
+    return position;
+}
+
+void Window::set_title(std::string _title) {
+    glfwSetWindowTitle(window, _title.c_str());
+    title = std::move(_title);
+}
+
+void Window::set_icon(const Image& image) const {
+    set_icon(image.get_size(), image.get_pixels());
+}
+
+void Window::set_icon(Vec2i size, const unsigned char* pixels) const {
+    GLFWimage images[1];
+    images[0].width = size.x;
+    images[0].height = size.y;
+    images[0].pixels = const_cast<unsigned char*>(pixels);
+    glfwSetWindowIcon(window, 1, images);
+}
+
+void Window::set_default_icon() const {
+    glfwSetWindowIcon(window, 1, nullptr);
+}
+
+void ex::Window::clear(Color color) const {
+    glClearColor(color.r / 255.0f,
+                 color.g / 255.0f,
+                 color.b / 255.0f,
+                 color.a / 255.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::display() const {
+    Vec2i framebuffer_size = get_framebuffer_size();
+    glViewport(0, 0, framebuffer_size.x, framebuffer_size.y);
+
+    glfwSwapBuffers(window);
 }
 
 void Window::set_close_callback(CloseCallback callback) {
