@@ -5,7 +5,7 @@
 
 int main() {
     // Create a window
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Window Test");
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Window Icon Test");
 
     if (!window.is_exist())
         return -1;

@@ -90,31 +90,34 @@ void Draw::init_texture_pipeline() {
     }
     if (!texture_shader) {
         gl::Shader::ProgramSource src = {
-            R"(
-            #version 330 core
-            layout(location = 0) in vec2 a_position;
-            layout(location = 1) in vec2 a_texcoord;
-            layout(location = 2) in vec4 a_color;
-            uniform mat4 u_transform;
-            out vec2 v_texcoord;
-            out vec4 v_color;
-            void main() {
-                gl_Position = u_transform * vec4(a_position, 0.0, 1.0);
-                v_texcoord = a_texcoord;
-                v_color    = a_color;
-            }
-            )",
-            R"(
-            #version 330 core
-            in vec2 v_texcoord;
-            in vec4 v_color;
-            uniform sampler2D u_texture;
-            out vec4 fragColor;
-            void main() {
-                vec4 tex = texture(u_texture, v_texcoord);
-                fragColor = tex * v_color;
-            }
-            )"
+        // Vertex shader
+        R"(
+        #version 330 core
+        layout(location = 0) in vec2 a_position;
+        layout(location = 1) in vec2 a_texcoord;
+        layout(location = 2) in vec4 a_color;
+        uniform mat4 u_transform;
+        uniform vec2 u_texRecip;
+        out vec2 v_texcoord;
+        out vec4 v_color;
+        void main() {
+            gl_Position = u_transform * vec4(a_position, 0.0, 1.0);
+            v_texcoord = a_texcoord * u_texRecip;
+            v_color    = a_color;
+        }
+        )",
+        // Fragment shader
+        R"(
+        #version 330 core
+        in vec2 v_texcoord;
+        in vec4 v_color;
+        uniform sampler2D u_texture;
+        out vec4 fragColor;
+        void main() {
+            vec4 tex = texture(u_texture, v_texcoord);
+            fragColor = tex * v_color;
+        }
+        )"
         };
         texture_shader = std::make_unique<gl::Shader>(src);
     }
@@ -153,14 +156,16 @@ void Draw::draw_texture(const Vertex* start, int count, const State& state) {
     init_texture_pipeline();
     if (count <= 0) return;
 
+    Vec2f tex_size(state.texture->get_size());
+    texture_shader->set_uniform_vec2("u_texRecip", 1.0f / tex_size.x, 1.0f / tex_size.y);
+
     std::vector<GLfloat> data;
     data.reserve(count * 8);
-    Vec2f texture_size(state.texture->get_size());
     while (count--) {
         data.push_back(start->pos.x);
         data.push_back(start->pos.y);
-        data.push_back(start->tex_coords.x / texture_size.x);
-        data.push_back(start->tex_coords.y / texture_size.y);
+        data.push_back(start->tex_coords.x);
+        data.push_back(start->tex_coords.y);
         data.push_back(start->color.r / 255.0f);
         data.push_back(start->color.g / 255.0f);
         data.push_back(start->color.b / 255.0f);

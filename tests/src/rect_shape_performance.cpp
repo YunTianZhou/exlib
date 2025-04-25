@@ -12,7 +12,7 @@ int main() {
     using TimePoint = std::chrono::time_point<Clock>;
 
     // Create a window
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 1200, 600 }, "Rect Performance Test");
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 1200, 600 }, "Rect Shape Performance Test");
 
     if (!window.is_exist()) {
         std::cerr << "Failed to create window!" << std::endl;

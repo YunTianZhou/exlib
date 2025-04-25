@@ -7,7 +7,7 @@
 
 int main() {
     // Create a window
-    ex::Window& window = ex::Window::create({ 800, 600 }, "ConvShape Test");
+    ex::Window& window = ex::Window::create({ 800, 600 }, "Conv Shape Test");
 
     if (!window.is_exist()) {
         std::cerr << "Failed to create window!" << std::endl;

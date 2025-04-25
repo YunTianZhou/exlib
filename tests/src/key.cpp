@@ -20,7 +20,7 @@ void on_char(unsigned int codepoint) {
 
 int main() {
     // Create a window
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Cursor Test");
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Key Test");
 
     if (!window.is_exist())
         return -1;
