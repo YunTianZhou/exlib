@@ -16,7 +16,7 @@ int main() {
     window.set_display_interval(1);
 
     // 2) Load a texture from file
-    ex::Texture texture(IMG_DIR"brick.png");
+    ex::Texture texture(RES_DIR"brick.png");
 
     // 3) Generate mipmaps and set filtering / wrapping
     texture.set_filter(

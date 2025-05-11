@@ -15,7 +15,7 @@ int main() {
 
     // Load texture
     ex::Texture texture;
-    if (!texture.load_from_file(IMG_DIR"github.png")) {
+    if (!texture.load_from_file(RES_DIR"github.png")) {
         std::cerr << "Failed to load texture!" << std::endl;
         return -1;
     }

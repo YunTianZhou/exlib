@@ -11,7 +11,7 @@ int main() {
         return -1;
 
     // Set icon of the window
-    ex::Image image(IMG_DIR"settings.png");
+    ex::Image image(RES_DIR"settings.png");
     window.set_icon(image);
 
     // Main event loop
