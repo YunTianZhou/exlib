@@ -1,10 +1,23 @@
 file(GLOB TESTS_SRC_FILES "src/*.cpp")
 
-set(IMG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/img")
+set(RES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/res/")
 
-add_definitions(-DIMG_DIR=\"${IMG_DIR}/\")
+add_definitions(-DRES_DIR=\"${RES_DIR}\")
 
-link_libraries(exlib_static)
+if (TESTS_LINK_SHARED)
+    if (TARGET exlib_shared)
+        link_libraries(exlib_shared)
+    else()
+        message(FATAL_ERROR "TESTS_LINK_SHARED is ON but exlib_shared target does not exist")
+    endif()
+else()
+    if (TARGET exlib_static)
+        link_libraries(exlib_static)
+    else()
+        message(FATAL_ERROR "TESTS_LINK_SHARED is OFF but exlib_static target does not exist")
+    endif()
+endif()
+
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
 

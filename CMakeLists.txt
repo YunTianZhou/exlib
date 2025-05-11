@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(BUILD_STATIC "Build static library" ON)
 option(BUILD_SHARED "Build shared library" ON)
 option(BUILD_TESTS "Build tests" OFF)
+option(TESTS_LINK_SHARED "Link tests against the shared library" OFF)
 
 # Dependencies
 set(BUILD_SHARED_LIBS        OFF CACHE BOOL "Disable all shared libraries"    FORCE)
@@ -24,9 +25,23 @@ set(glew-cmake_BUILD_SHARED   OFF CACHE BOOL "Disable GLEW shared"  FORCE)
 set(glew-cmake_BUILD_STATIC    ON  CACHE BOOL "Enable GLEW static"    FORCE)
 set(ONLY_LIBS                  ON  CACHE BOOL "Skip GLEW executables" FORCE)
 
+set(FT_WITH_ZLIB     OFF CACHE BOOL "Disable system zlib" FORCE)
+set(FT_WITH_PNG      OFF CACHE BOOL "Disable PNG support" FORCE)
+set(FT_WITH_BZIP2    OFF CACHE BOOL "Disable BZip2 support" FORCE)
+set(FT_WITH_HARFBUZZ OFF CACHE BOOL "Disable HarfBuzz auto-hinting" FORCE)
+set(FT_WITH_BROTLI   OFF CACHE BOOL "Disable Brotli WOFF2 support" FORCE)
+
+set(CMAKE_DISABLE_FIND_PACKAGE_ZLIB      TRUE CACHE BOOL "" FORCE)
+set(CMAKE_DISABLE_FIND_PACKAGE_PNG       TRUE CACHE BOOL "" FORCE)
+set(CMAKE_DISABLE_FIND_PACKAGE_BZip2     TRUE CACHE BOOL "" FORCE)
+set(CMAKE_DISABLE_FIND_PACKAGE_HarfBuzz  TRUE CACHE BOOL "" FORCE)
+set(CMAKE_DISABLE_FIND_PACKAGE_BrotliDec TRUE CACHE BOOL "" FORCE)
+
+# Subdirectories
 add_subdirectory(external/glfw)
 add_subdirectory(external/glew)
 add_subdirectory(external/glm)
+add_subdirectory(external/freetype)
 
 # Source files
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
@@ -42,11 +57,12 @@ if(BUILD_STATIC)
         external/glm
         external/glfw/include
         external/glew/include
+        external/freetype/include
     )
     if(WIN32)
-        target_link_libraries(exlib_static PRIVATE glfw libglew_static opengl32)
+        target_link_libraries(exlib_static PRIVATE glfw libglew_static freetype  opengl32)
     else()
-        target_link_libraries(exlib_static PRIVATE OpenGL::GL glfw GLEW)
+        target_link_libraries(exlib_static PRIVATE OpenGL::GL glfw GLEW freetype)
     endif()
 endif()
 
@@ -60,11 +76,12 @@ if(BUILD_SHARED)
         external/glm
         external/glfw/include
         external/glew/include
+        external/freetype/include
     )
     if(WIN32)
-        target_link_libraries(exlib_shared PRIVATE glfw libglew_static opengl32)
+        target_link_libraries(exlib_shared PRIVATE glfw libglew_static freetype opengl32)
     else()
-        target_link_libraries(exlib_shared PRIVATE OpenGL::GL glfw GLEW)
+        target_link_libraries(exlib_shared PRIVATE OpenGL::GL glfw GLEW freetype)
     endif()
 endif()
 
@@ -72,4 +89,6 @@ endif()
 if(BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
+elseif(TESTS_LINK_SHARED)
+    message(WARNING "Tests are disabled, but TESTS_LINK_SHARED option is set to ON")
 endif()

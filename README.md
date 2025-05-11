@@ -48,7 +48,8 @@ You can build the project using either standard CMake commands or a convenient w
 cmake -B build -S . \
   -DBUILD_TESTS=<ON|OFF> \
   -DBUILD_STATIC=<ON|OFF> \
-  -DBUILD_SHARED=<ON|OFF>
+  -DBUILD_SHARED=<ON|OFF> \
+  -DTESTS_LINK_SHARED=<ON|OFF>
 ```
 
 -   `BUILD_TESTS` (default: OFF) — whether to build the test suite
@@ -56,6 +57,8 @@ cmake -B build -S . \
 -   `BUILD_STATIC` (default: ON) — whether to build the static library
     
 -   `BUILD_SHARED` (default: ON) — whether to build the shared library
+
+-   `DTESTS_LINK_SHARED` (default: OFF) — whether to link tests against the shared library (static library as default)
     
 
 You can change the options or CMake configs according to your needs.
@@ -79,11 +82,12 @@ It will generate a build directory at the project root (`exlib/build`), includin
 #### Script options
 
 ```
-  -c, --config      Release|Debug       (default: Release)
-  -t, --tests       ON|OFF              (default: ON)
-  -g, --generator   <name>              e.g. "Ninja", "Unix Makefiles"
-  -a, --arch        <arch>              e.g. x64 (for multi-config generators)
-  -h, --help                            Show this help message
+  -c, --config              Release|Debug       (default: Release)
+  -t, --tests               ON|OFF              (default: ON)
+  -t, --link-shared-tests   ON|OFF              (default: OFF)
+  -g, --generator           <name>              e.g. "Ninja", "Unix Makefiles"
+  -a, --arch                <arch>              e.g. x64 (for multi-config generators)
+  -h, --help                                    Show this help message
 ```
 
 #### Example usage
@@ -117,7 +121,7 @@ int main() {
         window.clear();
 
         // Draw something here
-        // ex::Draw(...)
+        // ex::Draw::draw(...)
 
         window.display();
         window.poll_events();
