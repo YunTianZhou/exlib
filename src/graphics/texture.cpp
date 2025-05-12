@@ -48,7 +48,7 @@ bool Texture::load_from_file(const std::filesystem::path& path) {
         return false;
     }
 
-    tex = gl::Texture({ w, h }, data);
+    tex = gl::Tex({ w, h }, data);
     stbi_image_free(data);
     return true;
 }
@@ -67,7 +67,7 @@ bool Texture::load_from_memory(const void* data, int size) {
         return false;
     }
 
-    tex = gl::Texture({ w, h }, image);
+    tex = gl::Tex({ w, h }, image);
     stbi_image_free(image);
     return true;
 }
@@ -78,7 +78,7 @@ bool Texture::load_from_image(const Image& image) {
         return false;
     }
 
-    tex = gl::Texture(image.get_size(), image.get_pixels());
+    tex = gl::Tex(image.get_size(), image.get_pixels());
     return true;
 }
 
@@ -100,6 +100,14 @@ void Texture::set_wrap(Wrap wrap_s, Wrap wrap_t) {
 
 void Texture::generate_mipmaps() {
     tex.generate_mipmaps();
+}
+
+void Texture::double_size() {
+    tex.double_size();
+}
+
+int Texture::get_maximum_size() {
+    return gl::Tex::get_maximum_size();
 }
 
 }

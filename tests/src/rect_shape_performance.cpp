@@ -26,7 +26,7 @@ int main() {
 
     for (int i = 0; i < rect_count; ++i) {
         ex::RectShape rect({ 10.0f + (i % 5), 10.0f + (i % 7) });
-        rect.set_position({ static_cast<float>((i * 13) % 1200), static_cast<float>((i * 7) % 600) });
+        rect.set_position({ (float) ((i * 13) % 1200), (float) ((i * 7) % 600) });
         rect.set_fill_color(ex::Color(50 + (i % 200), 100, 150));
         rect.set_outline_color(ex::Color::Blue);
         rect.set_outline_thickness(-1.0f);
@@ -56,7 +56,7 @@ int main() {
         TimePoint now = Clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start_time);
         if (elapsed.count() >= 5) {
-            float fps = frame_count / static_cast<float>(elapsed.count());
+            float fps = frame_count / (float) (elapsed.count());
             std::cout << "FPS: " << fps << " (" << rect_count << " rectangles)\n";
             frame_count = 0;
             start_time = now;

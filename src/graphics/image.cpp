@@ -55,7 +55,7 @@ bool Image::load_from_file(const std::filesystem::path& path) {
     int w, h, channels;
     unsigned char* data = stbi_load(path.string().c_str(), &w, &h, &channels, 4);
     if (!data) {
-        EX_ERROR("Failed to load image from file '" + path.string() + "'");
+        EX_ERROR("Failed to load image (failed to open file '" + path.string() + "')");
         return false;
     }
 

@@ -12,5 +12,7 @@
 
 #include "exlib/graphics/texture.hpp"
 #include "exlib/graphics/image.hpp"
+#include "exlib/graphics/font.hpp"
+#include "exlib/graphics/text.hpp"
 
 #include "exlib/graphics/sprite.hpp"

@@ -24,6 +24,10 @@ struct EXLIB_API Vertex {
 	Vertex(const Vec2f& _pos, const Vec2f& _tex_coords) 
 		: pos(_pos), color(Color::White), tex_coords(_tex_coords) {
 	}
+
+	Vertex(const Vec2f& _pos, const Color& _color, const Vec2f& _tex_coords)
+		: pos(_pos), color(_color), tex_coords(_tex_coords) {
+	}
 };
 
 template <class T>

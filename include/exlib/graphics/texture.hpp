@@ -3,7 +3,7 @@
 #include <memory>
 #include <filesystem>
 
-#include "exlib/opengl/texture.hpp"
+#include "exlib/opengl/tex.hpp"
 
 namespace ex {
 
@@ -11,8 +11,8 @@ class Image;
 
 class EXLIB_API Texture {
 public:
-    using Filter = gl::Texture::Filter;
-    using Wrap = gl::Texture::Wrap;
+    using Filter = gl::Tex::Filter;
+    using Wrap = gl::Tex::Wrap;
 
 public:
     // Constructors and Destructors
@@ -23,9 +23,7 @@ public:
     explicit Texture(const Image& image);
     ~Texture() = default;
 
-    // Copy and Move
-    Texture(const Texture& other) = delete;
-    Texture& operator=(const Texture& other) = delete;
+    // Move Constructors
     Texture(Texture&& other) noexcept;
     Texture& operator=(Texture&& other) noexcept;
 
@@ -54,8 +52,15 @@ public:
     inline Vec2i get_size() const { return tex.get_size(); }
     bool is_exist() const { return tex.is_exist(); }
 
+    // Static functions
+    static int get_maximum_size();
+
 private:
-    gl::Texture tex;
+    friend class Font;
+    void double_size();
+
+private:
+    gl::Tex tex;
 };
 
 }
