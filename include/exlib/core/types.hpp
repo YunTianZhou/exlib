@@ -8,7 +8,7 @@
 namespace ex {
 
 template <class T>
-struct EXLIB_API Vec2 {
+struct Vec2 {
     T x, y;
 
     Vec2() : x(0), y(0) {}
@@ -69,7 +69,7 @@ struct EXLIB_API Vec2 {
 };
 
 template <class T>
-struct EXLIB_API Vec3 {
+struct Vec3 {
     T x, y, z;
 
     Vec3() : x(0), y(0), z(0) {}

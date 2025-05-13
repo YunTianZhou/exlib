@@ -31,7 +31,7 @@ struct EXLIB_API Vertex {
 };
 
 template <class T>
-struct EXLIB_API Rect {
+struct Rect {
 	Vec2<T> pos, size;
 
 	Rect() = default;
