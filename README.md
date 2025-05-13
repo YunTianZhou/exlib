@@ -12,7 +12,9 @@
 -   Basic graphics interfaces
     
 -   Texture rendering support
-    
+
+-   Text rendering (support different fonts, text size and style)
+
 -   Cross-platform compatibility (Windows & Linux)
     
 
@@ -84,7 +86,7 @@ It will generate a build directory at the project root (`exlib/build`), includin
 ```
   -c, --config              Release|Debug       (default: Release)
   -t, --tests               ON|OFF              (default: ON)
-  -t, --link-shared-tests   ON|OFF              (default: OFF)
+  -l, --link-shared-tests   ON|OFF              (default: OFF)
   -g, --generator           <name>              e.g. "Ninja", "Unix Makefiles"
   -a, --arch                <arch>              e.g. x64 (for multi-config generators)
   -h, --help                                    Show this help message
@@ -135,13 +137,15 @@ int main() {
 
 This project utilizes the following open-source libraries:
 
--   [GLFW](https://github.com/glfw/glfw) - Multi-platform library for OpenGL
+-   [glfw](https://github.com/glfw/glfw) - Multi-platform library for OpenGL
     
--   [GLEW](https://github.com/nigels-com/glew) - The OpenGL Extension Wrangler Library
+-   [glew](https://github.com/nigels-com/glew) - The OpenGL Extension Wrangler Library
     
--   [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
+-   [glm](https://github.com/g-truc/glm) - OpenGL Mathematics
     
--   [STB](https://github.com/nothings/stb) - Image import and export
+-   [stb](https://github.com/nothings/stb) - Image import and export
+
+-   [freetype](https://github.com/freetype/freetype.git) - Load font
     
 
 This project is inspired by the design of the `Graphics` module in [SFML](https://github.com/SFML/SFML).
