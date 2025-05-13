@@ -47,47 +47,41 @@ add_subdirectory(external/freetype)
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 # Build libraries based on options
+set(EXLIB_INCLUDE_DIRS
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/stb
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/glm
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/glfw/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/glew/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/freetype/include
+)
+
 if(BUILD_STATIC)
     add_library(exlib_static STATIC ${SRC_FILES})
     set_target_properties(exlib_static PROPERTIES OUTPUT_NAME "exlib_s")
     target_compile_definitions(exlib_static PUBLIC EXLIB_STATIC GLEW_STATIC)
-    target_include_directories(exlib_static PUBLIC
-        include
-        external/stb
-        external/glm
-        external/glfw/include
-        external/glew/include
-        external/freetype/include
-    )
+    target_include_directories(exlib_static PUBLIC ${EXLIB_INCLUDE_DIRS})
     if(WIN32)
-        target_link_libraries(exlib_static PRIVATE glfw libglew_static freetype  opengl32)
+        target_link_libraries(exlib_static PUBLIC glfw libglew_static freetype opengl32)
     else()
-        target_link_libraries(exlib_static PRIVATE OpenGL::GL glfw GLEW freetype)
+        target_link_libraries(exlib_static PUBLIC OpenGL::GL glfw GLEW freetype)
     endif()
 endif()
 
 if(BUILD_SHARED)
     add_library(exlib_shared SHARED ${SRC_FILES})
     set_target_properties(exlib_shared PROPERTIES OUTPUT_NAME "exlib")
-    target_compile_definitions(exlib_shared PRIVATE EXLIB_EXPORTS GLEW_STATIC)
-    target_include_directories(exlib_shared PUBLIC
-        include
-        external/stb
-        external/glm
-        external/glfw/include
-        external/glew/include
-        external/freetype/include
-    )
+    target_compile_definitions(exlib_shared PRIVATE EXLIB_EXPORTS PUBLIC GLEW_STATIC)
+    target_include_directories(exlib_shared PUBLIC ${EXLIB_INCLUDE_DIRS})
     if(WIN32)
-        target_link_libraries(exlib_shared PRIVATE glfw libglew_static freetype opengl32)
+        target_link_libraries(exlib_shared PUBLIC glfw libglew_static freetype opengl32)
     else()
-        target_link_libraries(exlib_shared PRIVATE OpenGL::GL glfw GLEW freetype)
+        target_link_libraries(exlib_shared PUBLIC OpenGL::GL glfw GLEW freetype)
     endif()
 endif()
 
 # Tests
 if(BUILD_TESTS)
-    enable_testing()
     add_subdirectory(tests)
 elseif(TESTS_LINK_SHARED)
     message(WARNING "Tests are disabled, but TESTS_LINK_SHARED option is set to ON")
