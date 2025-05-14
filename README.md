@@ -20,7 +20,13 @@
 
 ## Examples
 
-For more examples, see the `exlib/tests` directory, which contains usage examples for all functions in this project.
+The examples are in the `exlib/examples` directory:
+
+| Example | Description                                                                                                                                         | Screenshot                                                                 |
+|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| chess   | Uses most of the functions in this library. Supports piece movement (via selection or dragging), and right-click to mark (highlight squares, draw arrows). | <img src="examples/chess/screenshot.png" width="100" height="100" alt="chess screenshot" /> |
+
+For more references, see the `exlib/tests` directory, which contains usage examples for all functions in this project.
 
 ## Getting Started
 
@@ -48,19 +54,22 @@ You can build the project using either standard CMake commands or a convenient w
 
 ```bash
 cmake -B build -S . \
-  -DBUILD_TESTS=<ON|OFF> \
   -DBUILD_STATIC=<ON|OFF> \
   -DBUILD_SHARED=<ON|OFF> \
-  -DTESTS_LINK_SHARED=<ON|OFF>
+  -DBUILD_TESTS=<ON|OFF> \
+  -DBUILD_EXAMPLES=<ON|OFF> \
+  -DLINK_SHARED=<ON|OFF>
 ```
-
--   `BUILD_TESTS` (default: OFF) — whether to build the test suite
     
 -   `BUILD_STATIC` (default: ON) — whether to build the static library
     
 -   `BUILD_SHARED` (default: ON) — whether to build the shared library
 
--   `DTESTS_LINK_SHARED` (default: OFF) — whether to link tests against the shared library (static library as default)
+-   `BUILD_TESTS` (default: OFF) — whether to build the test suite
+
+-   `DBUILD_EXAMPLES` (default: OFF) — whether to build the example suite
+
+-   `DLINK_SHARED` (default: OFF) — whether to link tests and examples against the shared library (static library as default)
     
 
 You can change the options or CMake configs according to your needs.
@@ -84,12 +93,20 @@ It will generate a build directory at the project root (`exlib/build`), includin
 #### Script options
 
 ```
-  -c, --config              Release|Debug       (default: Release)
-  -t, --tests               ON|OFF              (default: ON)
-  -l, --link-shared-tests   ON|OFF              (default: OFF)
-  -g, --generator           <name>              e.g. "Ninja", "Unix Makefiles"
-  -a, --arch                <arch>              e.g. x64 (for multi-config generators)
-  -h, --help                                    Show this help message
+    -c, --config         Debug | Release         (default: Release)
+                         Build type passed to CMake (CMAKE_BUILD_TYPE)
+  
+    -t, --tests          ON | OFF               (default: ON)
+                         Enable or disable building of tests
+
+    -e, --examples       ON | OFF               (default: ON)
+                         Enable or disable building of examples
+  
+    -l, --link-shared    ON | OFF               (default: OFF)
+                         Link tests and examples with shared (ON) or static (OFF) library
+
+    -g, --generator      <name>                 (default: system default)
+                         CMake generator to use (e.g. "Ninja", "Unix Makefiles", "Visual Studio 17 2022")
 ```
 
 #### Example usage
@@ -100,7 +117,7 @@ This sets up a Debug build, disables tests, and uses Ninja to build:
 scripts/build.sh --config Debug --tests OFF --generator "Ninja"
 ```
 
-To use the default settings: Release build, tests ON, and the default generator (e.g., Unix Makefiles or Ninja if available):
+To use the default settings: Release build, tests & examples ON and link with static library, and the default generator (e.g., Unix Makefiles or Ninja if available):
 
 ```bash
 scripts/build.sh

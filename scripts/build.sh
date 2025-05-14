@@ -4,20 +4,29 @@ set -euo pipefail
 # default values
 BUILD_TYPE=Release
 BUILD_TESTS=ON
-TESTS_LINK_SHARED=OFF
+BUILD_EXAMPLES=ON
+LINK_SHARED=OFF
 GENERATOR=""
-ARCH=""
 
 usage() {
   cat <<EOF
 Usage: $0 [options]
 
-  -c|--config            Release|Debug       (default: $BUILD_TYPE)
-  -t|--tests             ON|OFF              (default: $BUILD_TESTS)
-  -l|--link-shared-tests ON|OFF              (default: $TESTS_LINK_SHARED)
-  -g|--generator         <name>              e.g. "Ninja", "Unix Makefiles"
-  -a|--arch              <arch>              e.g. x64 (for multi-config generators)
-  -h|--help                                  show this help
+Options:
+    -c, --config         Debug | Release         (default: Release)
+                         Build type passed to CMake (CMAKE_BUILD_TYPE)
+  
+    -t, --tests          ON | OFF               (default: ON)
+                         Enable or disable building of tests
+
+    -e, --examples       ON | OFF               (default: ON)
+                         Enable or disable building of examples
+  
+    -l, --link-shared    ON | OFF               (default: OFF)
+                         Link tests and examples with shared (ON) or static (OFF) library
+
+    -g, --generator      <name>                 (default: system default)
+                         CMake generator to use (e.g. "Ninja", "Unix Makefiles", "Visual Studio 17 2022")
 EOF
   exit 1
 }
@@ -27,9 +36,9 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     -c|--config)            BUILD_TYPE=$2; shift 2 ;;
     -t|--tests)             BUILD_TESTS=$2; shift 2 ;;
-    -l|--link-shared-tests) TESTS_LINK_SHARED=$2; shift 2 ;;
+    -e|--examples)          BUILD_EXAMPLES=$2; shift 2 ;;
+    -l|--link-shared)       LINK_SHARED=$2; shift 2 ;;
     -g|--generator)         GENERATOR="-G \"$2\""; shift 2 ;;
-    -a|--arch)              ARCH="-A $2"; shift 2 ;;
     -h|--help)              usage ;;
     *) echo "Unknown arg: $1"; usage ;;
   esac
@@ -43,9 +52,10 @@ mkdir -p build
 cd build
 
 # configure
-eval cmake $GENERATOR $ARCH \
-  -DBUILD_TESTS="$BUILD_TESTS" \
-  -DTESTS_LINK_SHARED="$TESTS_LINK_SHARED" \
+eval cmake $GENERATOR \
+  -DEXLIB_BUILD_TESTS="$BUILD_TESTS" \
+  -DEXLIB_BUILD_EXAMPLES="$BUILD_EXAMPLES" \
+  -DEXLIB_LINK_SHARED="$LINK_SHARED" \
   ..
 
 # build
