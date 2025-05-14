@@ -1,4 +1,3 @@
-#pragma once
 #include "board.hpp"
 
 bool is_piece_white(char piece) {

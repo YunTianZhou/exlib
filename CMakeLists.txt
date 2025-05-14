@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 project(exlib)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 cmake_policy(SET CMP0072 NEW)
 
 find_package(OpenGL REQUIRED)
