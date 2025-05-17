@@ -131,7 +131,7 @@ Here's a simple template for setting up an `exlib` project:
 #include <exlib/exlib.hpp>
 
 int main() {
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Window Test");
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Hello Exlib");
 
     if (!window.is_exist())
         return -1;

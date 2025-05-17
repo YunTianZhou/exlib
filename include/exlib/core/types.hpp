@@ -2,7 +2,9 @@
 
 #include <string>
 #include <cmath>
+#include <type_traits>
 
+#include "exlib/core/exception.hpp"
 #include "exlib/core/config.hpp"
 
 namespace ex {
@@ -50,7 +52,7 @@ struct Vec2 {
     inline T cross(const Vec2& other) const { return x * other.y - y * other.x; }
 
     // Magnitude
-    inline T magnitude() const { return std::sqrt(x * x + y * y); }
+    inline T magnitude() const { return (T) std::sqrt(x * x + y * y); }
 
     // Normalization
     inline Vec2 normalized() const {
@@ -116,7 +118,7 @@ struct Vec3 {
     }
 
     // Magnitude
-    inline T magnitude() const { return std::sqrt(x * x + y * y + z * z); }
+    inline T magnitude() const { return (T) std::sqrt(x * x + y * y + z * z); }
 
     // Normalization
     inline Vec3 normalized() const {
