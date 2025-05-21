@@ -20,7 +20,7 @@ struct Move {
 
     Move(int _from, int _to, char _promotion = 0);
 
-    bool is_null() { return from == -1 || to == -1; }
+    bool is_null() const { return from == -1 || to == -1; }
 
     Move get_castle_rook_move() const;
 
