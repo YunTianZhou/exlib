@@ -44,6 +44,58 @@ git clone --recurse-submodules https://github.com/YunTianZhou/exlib.git
 cd exlib
 ```
 
+## Usage
+
+We recommend you use CMake to build your project, you can find the CMake template below.
+You can also choose to compile this library and link against it ([build exlib](#build)).
+
+### CMake Template
+```cmake
+cmake_minimum_required(VERSION 3.5)
+project(ExlibExample)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    exlib
+    GIT_REPOSITORY https://github.com/YunTianZhou/exlib.git
+    GIT_TAG 1.0.0
+)
+
+FetchContent_MakeAvailable(exlib)
+
+add_executable(main_app main.cpp)
+
+target_link_libraries(main_app PRIVATE exlib_static)
+```
+
+### Example code
+```cpp
+#include <exlib/exlib.hpp>
+
+int main() {
+    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Hello Exlib");
+
+    if (!window.is_exist())
+        return -1;
+
+    while (window.is_open()) {
+        window.clear();
+
+        // Draw something here
+        // ex::Draw::draw(...)
+
+        window.display();
+        window.poll_events();
+    }
+
+    window.destroy();
+}
+```
+
 ## Build
 
 You can build the project using either standard CMake commands or a convenient wrapper script.
@@ -67,9 +119,9 @@ cmake -B build -S . \
 
 -   `BUILD_TESTS` (default: OFF) — whether to build the test suite
 
--   `DBUILD_EXAMPLES` (default: OFF) — whether to build the example suite
+-   `BUILD_EXAMPLES` (default: OFF) — whether to build the example suite
 
--   `DLINK_SHARED` (default: OFF) — whether to link tests and examples against the shared library (static library as default)
+-   `LINK_SHARED` (default: OFF) — whether to link tests and examples against the shared library (static library as default)
     
 
 You can change the options or CMake configs according to your needs.
@@ -121,33 +173,6 @@ To use the default settings: Release build, tests & examples ON and link with st
 
 ```bash
 scripts/build.sh
-```
-
-## Usage
-
-Here's a simple template for setting up an `exlib` project:
-
-```cpp
-#include <exlib/exlib.hpp>
-
-int main() {
-    ex::Window& window = ex::Window::create(ex::Vec2i{ 800, 600 }, "Hello Exlib");
-
-    if (!window.is_exist())
-        return -1;
-
-    while (window.is_open()) {
-        window.clear();
-
-        // Draw something here
-        // ex::Draw::draw(...)
-
-        window.display();
-        window.poll_events();
-    }
-
-    window.destroy();
-}
 ```
 
 ## Acknowledgments
